@@ -33,7 +33,7 @@
 			opened = true
 		}, 10)
 		const r2 = node.getBoundingClientRect()
-		const popup_width = Math.min(Math.max(options.width, 200), window.innerWidth * 0.8)
+		const popup_width = Math.min(Math.max(options.width, 280), window.innerWidth * 0.8)
 		let words_width = Math.min(activator_rect.width, window.innerWidth * 0.8)
 		let left = activator_rect.left - (popup_width - words_width) / 2
 		let top = activator_rect.top - r2.height - 10
