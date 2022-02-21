@@ -359,7 +359,7 @@
 		let activator_rect
 		let title = {
 			correction: 'Edit',
-			add: 'Add',
+			add: 'Insert',
 			comment: 'Comment'
 		}[active_button]
 		if (active_button === 'edit') {
