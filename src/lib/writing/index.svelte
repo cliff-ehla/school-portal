@@ -758,12 +758,9 @@
 			{#each comments as c, i}
 				<div
 					use:getPosition={c}
-					class="{!c.end_wid ? '-translate-x-1/2 transform' : ''} bg-blue-500 select-none mt-1 w-4 h-4 flex items-center justify-center text-white text-xs font-bold rounded-full absolute">
+					class="{!c.end_wid ? '-translate-x-1/2 transform' : ''} bg-blue-500 select-none mt-2.5 w-4 h-4 flex items-center justify-center text-white text-xs font-bold rounded-full absolute">
 					{i+1}
 				</div>
-				{#if !c.end_wid}
-					<div class="select-none absolute text-blue-500 leading-none px-1 py-1 transform -translate-x-1/2 mt-8 scale-y-150 font-bold" use:getPosition={c}>^</div>
-				{/if}
 			{/each}
 		</div>
 		{#if comments.length || is_any_next_para_symbol}
@@ -788,11 +785,11 @@
 									<p class="italic text-gray-400" style="font-size: 0.78em">{getTextByPosition(c.pid, c.start_wid, c.end_wid)}</p>
 								</div>
 							</div>
-							<div class="text-gray-500 flex">
+							<div class="text-gray-500 flex items-start">
 								<span class="text-xs text-gray-500 py-1">Comment:</span>
 								<span class="underline ml-1">{c.text}</span>
 								{#if !is_readonly}
-									<button on:click={() => {onEditComment(c,i)}} class="ml-2 bg-gray-100 hover:bg-gray-200 rounded text-blue-500 px-1 py-0.5 flex justify-center items-center text-xs">
+									<button on:click={() => {onEditComment(c,i)}} class="flex-shrink-0 ml-2 bg-gray-100 hover:bg-gray-200 rounded text-blue-500 px-1 py-0.5 flex justify-center items-center text-xs">
 										Edit
 									</button>
 								{/if}
