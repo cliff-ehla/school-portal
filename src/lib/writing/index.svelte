@@ -643,7 +643,7 @@
 <div on:click={onActivate} id="writing-editor">
 	<div class="bg-white rounded border border-gray-300" class:border-blue-500={text_editor_active} bind:this={para_el}>
 		{#if !is_readonly}
-			<div on:click={onToolbarClick} class="toolbar px-4 flex items-center py-1 text-gray-700 border-b border-gray-200 sticky top-10 z-40 bg-white" style="font-size: 22px">
+			<div on:click={onToolbarClick} class="toolbar px-4 flex items-center py-1 text-gray-700 border-b border-gray-200 top-10 z-40 bg-white" style="font-size: 22px">
 				<div class="flex-1 flex items-center">
 					{#if highlighted_amendments.length}
 						<button data-tooltip="Undo" class="tool-button" on:click={undoMultipleAmendments}>
@@ -663,17 +663,17 @@
 							</button>
 						{/if}
 					{:else}
-						<button data-tooltip="Correct" class="tool-button" on:click={() => {showPopup('correction')}} class:active={active_button === 'correction'} disabled={!highlight_start_idx}>
+						<button data-tooltip="Correct" class="tool-button" on:click={() => {showPopup('correction')}} class:active={active_button === 'correction'} disabled={highlight_start_idx === null}>
 							<svg class="fill-current w-7" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M27.9529 34.6139C27.7829 34.4479 27.6159 34.2559 27.4709 34.0639L13.1599 19.75C9.68194 20.854 5.72694 20.013 2.97194 17.257C0.644939 14.932 -0.316061 11.743 0.0919388 8.71995L5.82394 14.452L12.6319 12.605L14.4769 5.79695L8.74694 0.0919518C11.7929 -0.316048 14.9589 0.641952 17.2819 2.94595C20.0399 5.72595 20.8779 9.68095 19.7779 13.158L34.0899 27.472C34.2799 27.615 34.4479 27.759 34.6159 27.928C36.4609 29.773 36.4609 32.77 34.6159 34.615C32.7959 36.462 29.7989 36.462 27.9529 34.615V34.6139ZM32.1229 29.246C31.3329 28.454 30.0369 28.454 29.2459 29.246C28.4559 30.036 28.4559 31.309 29.2459 32.0979C30.0359 32.888 31.3319 32.888 32.1229 32.0979C32.9129 31.3079 32.9129 30.038 32.1229 29.246V29.246Z"/>
 							</svg>
 						</button>
-						<button data-tooltip="Delete" class="tool-button" on:click={deletedSelection} disabled={!highlight_start_idx}>
+						<button data-tooltip="Delete" class="tool-button" on:click={deletedSelection} disabled={highlight_start_idx === null}>
 							<svg class="fill-current w-7" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M32.5049 22.9901C30.2349 20.7201 27.4669 19.4941 25.1249 19.4941C24.7489 19.4941 24.3849 19.5291 24.0349 19.5941L21.7069 17.2641L28.8719 10.1001C28.8719 10.1001 34.3559 4.41213 30.7519 0.807129L17.9999 13.5571L5.24991 0.807129C1.64391 4.41313 7.12791 10.1001 7.12791 10.1001L14.2919 17.2641L11.9649 19.5941C11.6149 19.5301 11.2509 19.4941 10.8749 19.4941C8.53491 19.4941 5.76491 20.7211 3.49491 22.9901C-0.112087 26.5951 -1.08509 31.4701 1.31791 33.8731C2.21191 34.7661 3.44191 35.1931 4.82391 35.1931C7.16391 35.1931 9.93391 33.9631 12.2039 31.6971C14.7939 29.1071 16.0159 25.8691 15.6139 23.3571L17.9999 20.9701L20.3839 23.3581C19.9839 25.8701 21.2059 29.1081 23.7939 31.6981C26.0659 33.9661 28.8339 35.1941 31.1739 35.1941C32.5569 35.1941 33.7869 34.7661 34.6809 33.8741C37.0859 31.4711 36.1109 26.5961 32.5059 22.9901H32.5049ZM9.76491 29.2601C7.93091 31.0941 5.95691 31.7461 4.82491 31.7461C4.54191 31.7461 4.02691 31.7061 3.75791 31.4361C3.08191 30.7611 3.39491 27.9661 5.93391 25.4261C7.76991 23.5911 9.74391 22.9411 10.8739 22.9411C11.1589 22.9411 11.6739 22.9811 11.9439 23.2531C12.6199 23.9271 12.3039 26.7231 9.76591 29.2611L9.76491 29.2601ZM32.2449 31.4361C31.9729 31.7061 31.4589 31.7461 31.1749 31.7461C30.0449 31.7461 28.0699 31.0961 26.2349 29.2611C23.6949 26.7231 23.3809 23.9281 24.0569 23.2541C24.3269 22.9841 24.8419 22.9441 25.1249 22.9441C26.2579 22.9441 28.2309 23.5941 30.0669 25.4291C32.6049 27.9691 32.9189 30.7631 32.2439 31.4371L32.2449 31.4361Z"/>
 							</svg>
 						</button>
-						<button data-tooltip="Add" class="tool-button" on:click={() => {showPopup('add')}} class:active={active_button === 'add'} disabled={!!highlight_start_idx}>
+						<button data-tooltip="Add" class="tool-button" on:click={() => {showPopup('add')}} class:active={active_button === 'add'} disabled={highlight_start_idx !== null}>
 							<svg class="fill-current w-7" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path fill-rule="evenodd" clip-rule="evenodd" d="M30 36L18 12L6 36H30ZM10.2058 33.5L14.1029 25.25H21.8972L25.7943 33.5H10.2058Z"/>
 								<circle cx="9" cy="7" r="3"/>
