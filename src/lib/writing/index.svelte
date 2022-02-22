@@ -53,14 +53,14 @@
 	let computed_para = JSON.parse(JSON.stringify(para))
 
 	onMount(() => {
-		addRedText()
+		// addRedText()
 	})
 
 	function numberRange (start, end) {
 		return new Array(end - start).fill().map((d, i) => i + start);
 	}
 
-	const addRedText = () => {
+	$: {
 		console.log('add red text')
 		computed_para = JSON.parse(JSON.stringify(para))
 		para.forEach(p => {
@@ -93,7 +93,7 @@
 				w.comment = true
 			})
 		})
-		para = para
+		computed_para = computed_para
 		dispatch('update', {
 			comments,
 			edit_log,
@@ -468,6 +468,7 @@
 			}
 		)
 		edit_log = edit_log
+		setTimeout(() => {edit_log = edit_log}, 0)
 		clearHighlight()
 		getCrossover()
 	}
@@ -482,6 +483,7 @@
 			}
 		)
 		edit_log = edit_log
+		setTimeout(() => {edit_log = edit_log}, 10)
 	}
 
 	const addNextParaSymbol = () => {
@@ -493,6 +495,7 @@
 			}
 		)
 		edit_log = edit_log
+		setTimeout(() => {edit_log = edit_log}, 10)
 		getCrossover()
 	}
 
@@ -501,6 +504,7 @@
 		if (!word_obj) return console.warn('updateEditing: word_obj is undefined')
 		word_obj.text = text
 		edit_log = edit_log
+		setTimeout(() => {edit_log = edit_log}, 10)
 	}
 
 	const createEditWords = (text) => {
@@ -514,6 +518,7 @@
 			}
 		)
 		edit_log = edit_log
+		setTimeout(() => {edit_log = edit_log}, 10)
 		clearHighlight()
 	}
 
@@ -538,6 +543,7 @@
 		edit_log.splice(edit_log.findIndex(w => (w.start_wid === edit_start_idx) && w.pid === para_idx), 1)
 		await tick()
 		edit_log = edit_log
+		setTimeout(() => {edit_log = edit_log}, 10)
 		clearEditHighlight()
 	}
 
@@ -547,6 +553,7 @@
 		})
 		await tick()
 		edit_log = edit_log
+		setTimeout(() => {edit_log = edit_log}, 10)
 		clearEditHighlight()
 	}
 
