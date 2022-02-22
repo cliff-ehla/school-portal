@@ -83,7 +83,8 @@
 			if (text) { // cross out without adding words
 				computed_para[pid].splice(idx, 0, {
 					red_word: true,
-					text
+					text,
+					words: text.split(' ')
 				})
 			}
 		})
@@ -736,7 +737,9 @@
 					<div class="flex flex-wrap" class:mb-8={i < computed_para.length - 1}>
 						{#each p as w}
 							{#if w.red_word}
-								<div style="line-height: 2" class="text-red-500 px-0.5">{w.text}</div>
+								{#each w.words as word}
+									<div style="line-height: 2" class="text-red-500 px-0.5">{word}</div>
+								{/each}
 							{:else}
 								<div data-pid={w.pid} data-sid={w.sid} data-wid={w.wid}
 								     class="relative select-none word">
