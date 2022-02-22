@@ -16,7 +16,6 @@
 	export let edit_log = []
 	export let is_readonly = false
 	export let text_editor_active = undefined
-	console.log('cliff: ', edit_log)
 
 	let para_el
 	let editor_el
@@ -59,7 +58,6 @@
 	}
 
 	$: {
-		console.log('add red text')
 		computed_para = JSON.parse(JSON.stringify(para))
 		para.forEach(p => {
 			p.forEach(w => {
@@ -576,7 +574,6 @@
 			closeButton: true
 		}, {
 			onClose: () => {
-				console.log('onClose')
 				active_button = null
 			}
 		})
