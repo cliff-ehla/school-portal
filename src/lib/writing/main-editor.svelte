@@ -321,7 +321,8 @@
 		} else {
 			highlight_start_idx = null
 			highlight_end_idx = null
-			if (getMouseCursorIdx(e)) {
+			let idx = getMouseCursorIdx(e)
+			if (idx || idx === 0) {
 				cursor_idx = getMouseCursorIdx(e)
 			}
 		}
@@ -695,7 +696,7 @@
 								<path d="M32.5049 22.9901C30.2349 20.7201 27.4669 19.4941 25.1249 19.4941C24.7489 19.4941 24.3849 19.5291 24.0349 19.5941L21.7069 17.2641L28.8719 10.1001C28.8719 10.1001 34.3559 4.41213 30.7519 0.807129L17.9999 13.5571L5.24991 0.807129C1.64391 4.41313 7.12791 10.1001 7.12791 10.1001L14.2919 17.2641L11.9649 19.5941C11.6149 19.5301 11.2509 19.4941 10.8749 19.4941C8.53491 19.4941 5.76491 20.7211 3.49491 22.9901C-0.112087 26.5951 -1.08509 31.4701 1.31791 33.8731C2.21191 34.7661 3.44191 35.1931 4.82391 35.1931C7.16391 35.1931 9.93391 33.9631 12.2039 31.6971C14.7939 29.1071 16.0159 25.8691 15.6139 23.3571L17.9999 20.9701L20.3839 23.3581C19.9839 25.8701 21.2059 29.1081 23.7939 31.6981C26.0659 33.9661 28.8339 35.1941 31.1739 35.1941C32.5569 35.1941 33.7869 34.7661 34.6809 33.8741C37.0859 31.4711 36.1109 26.5961 32.5059 22.9901H32.5049ZM9.76491 29.2601C7.93091 31.0941 5.95691 31.7461 4.82491 31.7461C4.54191 31.7461 4.02691 31.7061 3.75791 31.4361C3.08191 30.7611 3.39491 27.9661 5.93391 25.4261C7.76991 23.5911 9.74391 22.9411 10.8739 22.9411C11.1589 22.9411 11.6739 22.9811 11.9439 23.2531C12.6199 23.9271 12.3039 26.7231 9.76591 29.2611L9.76491 29.2601ZM32.2449 31.4361C31.9729 31.7061 31.4589 31.7461 31.1749 31.7461C30.0449 31.7461 28.0699 31.0961 26.2349 29.2611C23.6949 26.7231 23.3809 23.9281 24.0569 23.2541C24.3269 22.9841 24.8419 22.9441 25.1249 22.9441C26.2579 22.9441 28.2309 23.5941 30.0669 25.4291C32.6049 27.9691 32.9189 30.7631 32.2439 31.4371L32.2449 31.4361Z"/>
 							</svg>
 						</button>
-						<button use:tooltip={'Add'} class="tool-button" on:click={() => {showPopup('add')}} class:active={active_button === 'add'} disabled={highlight_start_idx !== null}>
+						<button use:tooltip={'Insert'} class="tool-button" on:click={() => {showPopup('add')}} class:active={active_button === 'add'} disabled={highlight_start_idx !== null}>
 							<svg class="fill-current w-7" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path fill-rule="evenodd" clip-rule="evenodd" d="M30 36L18 12L6 36H30ZM10.2058 33.5L14.1029 25.25H21.8972L25.7943 33.5H10.2058Z"/>
 								<circle cx="9" cy="7" r="3"/>
@@ -703,7 +704,7 @@
 								<circle cx="27" cy="7" r="3"/>
 							</svg>
 						</button>
-						<button use:tooltip={'Paragraph'} class="tool-button" on:click={addNextParaSymbol} disabled={!!highlight_start_idx}>
+						<button use:tooltip={'Paragraphing'} class="tool-button" on:click={addNextParaSymbol} disabled={!!highlight_start_idx}>
 							<svg class="fill-current w-7" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M12 2.51911C8.49778 3.74044 6 7.08178 6 11.0009C6 15.6391 9.49956 19.4613 14 19.9609V34H18V6H22V34H26V6H30V2H12V2.51911Z"/>
 							</svg>
@@ -717,7 +718,7 @@
 						<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 36 36" class="w-6"><path d="M22.425 0C14.927 0 8.85 6.078 8.85 13.576c0 2.568.712 4.97 1.95 7.017L.954 30.438c-1.27 1.273-1.27 3.334 0 4.607 1.273 1.273 3.336 1.273 4.61 0l9.8-9.803c2.09 1.197 4.49 1.91 7.06 1.91C29.923 27.152 36 21.074 36 13.576S29.922 0 22.425 0zm0 22.808c-5.1 0-9.232-4.133-9.232-9.232s4.133-9.232 9.232-9.232c5.098 0 9.23 4.133 9.23 9.232s-4.133 9.232-9.23 9.232z"></path><path d="M24 8h-3v4h-4v3h4v4h3v-4h4v-3h-4"></path></svg>
 					</button>
 					<div class="mx-1 border-l h-6 border-gray-300"></div>
-					<button class="tool-button" use:tooltip={'Comment'}
+					<button class="tool-button" use:tooltip={'Add comment'}
 					        class:active={active_button === 'comment'}
 					        on:click={() => {showPopup('comment')}}>
 						<CommentSvg/>
@@ -733,7 +734,7 @@
 						{#each p as w}
 							{#if w.red_word}
 								{#each w.words as word}
-									<div style="line-height: 2" class="text-red-500 px-0.5">{word}</div>
+									<div style="line-height: 2" class="text-red-500 px-0.5 border-b border-red-500">{word}</div>
 								{/each}
 							{:else}
 								<div data-pid={w.pid} data-sid={w.sid} data-wid={w.wid}
@@ -767,13 +768,6 @@
 				{/each}
 			{/if}
 			{#each edit_log as w}
-				{#if w.type === 'add'}
-<!--					<div style="font-size: 0.9em" class="{w.pid === para_idx && (edit_start_idx === w.start_wid || highlighted_amendments.includes(w.start_wid)) ? 'bg-yellow-700 bg-opacity-20' : ''} select-none absolute text-green-700 leading-none px-1 py-1 transform -translate-x-1/2 whitespace-nowrap" use:getPosition={w}>{w.text}</div>-->
-<!--					<div class="{w.pid === para_idx && edit_start_idx === w.start_wid ? 'bg-yellow-700 bg-opacity-20' : ''} select-none absolute text-red-500 leading-none px-1 py-1 transform -translate-x-1/2 mt-8 scale-y-150 font-bold" use:getPosition={w}>^</div>-->
-				{/if}
-				{#if w.type === 'correction'}
-<!--					<div style="font-size: 0.9em" class="select-none absolute text-green-700 leading-none px-1 py-1 whitespace-nowrap" use:getPosition={w}>{w.text}</div>-->
-				{/if}
 				{#if w.type === 'next-paragraph'}
 					<div
 						class="{w.pid === para_idx && w.start_wid === edit_start_idx ? 'bg-yellow-700 bg-opacity-20' : ''} select-none absolute text-red-500 px-1 py-1 transform -translate-x-1/2" use:getPosition={w}>
@@ -786,7 +780,7 @@
 			{#each comments as c, i}
 				<div
 					use:getPosition={c}
-					class="{!c.end_wid ? '-translate-x-1/2 transform' : ''} bg-blue-500 select-none mt-2.5 w-4 h-4 flex items-center justify-center text-white text-xs font-bold rounded-full absolute">
+					class="{!c.end_wid ? '-translate-x-1/2 transform' : ''} bg-blue-500 select-none mt-2.5 w-5 h-5 flex items-center justify-center text-white text-xs font-bold rounded-full absolute">
 					{i+1}
 				</div>
 			{/each}
@@ -808,7 +802,7 @@
 					<div class="group flex items-center" class:mb-4={i < comments.length - 1}>
 						<div class="flex-1">
 							<div class="flex items-start">
-								<div style="font-size: 0.6em" class="bg-blue-500 flex-shrink-0 w-4 h-4 flex items-center justify-center text-white font-bold rounded-full">{i + 1}</div>
+								<div style="font-size: 0.6em" class="bg-blue-500 flex-shrink-0 w-5 h-5 flex items-center justify-center text-white font-bold rounded-full">{i + 1}</div>
 								<div class="inline-block ml-1">
 									<p class="italic text-gray-400" style="font-size: 0.78em">{getTextByPosition(c.pid, c.start_wid, c.end_wid)}</p>
 								</div>
