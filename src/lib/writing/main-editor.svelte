@@ -744,7 +744,7 @@
 									<div data-red-word style="line-height: 2"
 									     class="text-red-500 px-0.5 border-b border-red-500 relative">
 										{word.word}
-										{#if (word.start_wid === edit_start_idx && word.end_wid === edit_end_idx)}
+										{#if (para_idx === word.pid && word.start_wid === edit_start_idx && word.end_wid === edit_end_idx)}
 											<div class="absolute z-10 inset-0 bg-yellow-700 opacity-20"></div>
 										{/if}
 									</div>
