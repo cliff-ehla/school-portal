@@ -80,7 +80,12 @@
 				computed_para[pid].splice(idx, 0, {
 					red_word: true,
 					text,
-					words: text.split(' ')
+					words: text.split(' ').map(w => ({
+						word: w,
+						start_wid,
+						end_wid,
+						pid
+					}))
 				})
 			}
 		})
@@ -736,7 +741,13 @@
 						{#each p as w}
 							{#if w.red_word}
 								{#each w.words as word}
-									<div data-red-word style="line-height: 2" class="text-red-500 px-0.5 border-b border-red-500">{word}</div>
+									<div data-red-word style="line-height: 2"
+									     class="text-red-500 px-0.5 border-b border-red-500 relative">
+										{word.word}
+										{#if (word.start_wid === edit_start_idx && word.end_wid === edit_end_idx)}
+											<div class="absolute z-10 inset-0 bg-yellow-700 opacity-20"></div>
+										{/if}
+									</div>
 								{/each}
 							{:else}
 								<div data-pid={w.pid} data-sid={w.sid} data-wid={w.wid}
