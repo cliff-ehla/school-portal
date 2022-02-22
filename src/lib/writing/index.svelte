@@ -14,6 +14,7 @@
 	export let edit_log = []
 	export let is_readonly = false
 	export let text_editor_active = undefined
+	console.log('cliff: ', edit_log)
 
 	let para_el
 	let editor_el
@@ -53,7 +54,7 @@
 		return new Array(end - start).fill().map((d, i) => i + start);
 	}
 
-	$: {
+	const addRedText = () => {
 		para.forEach(p => {
 			p.forEach(w => {
 				w.comment = false
@@ -66,6 +67,17 @@
 			words.forEach(w => {
 				w.amendment_type = log.type
 			})
+		})
+		edit_log.forEach(log => {
+			const {start_wid, end_wid, pid, text} = log
+			let _end_wid = end_wid || (start_wid + 1)
+			let idx = para[pid].findIndex(w => w.wid === _end_wid)
+			if (text) {
+				para[pid].splice(idx, 0, {
+					red_word: true,
+					text
+				})
+			}
 		})
 		comments.forEach(c => {
 			let words = para[c.pid].slice(c.start_wid, c.end_wid)
@@ -81,6 +93,10 @@
 			para
 		})
 	}
+
+	addRedText()
+
+
 
 	$: {
 		if (cursor_idx >= 0) {
@@ -709,42 +725,46 @@
 				{#each para as p, i}
 					<div class="flex flex-wrap" class:mb-8={i < para.length - 1}>
 						{#each p as w}
-							<div data-pid={w.pid} data-sid={w.sid} data-wid={w.wid}
-							     class="relative select-none word">
+							{#if w.red_word}
+								<div style="line-height: 2" class="text-red-500 px-0.5">{w.text}</div>
+							{:else}
+								<div data-pid={w.pid} data-sid={w.sid} data-wid={w.wid}
+								     class="relative select-none word">
 
-								{#if para_idx === w.pid}
-									{#if ['correction','delete'].includes(w.amendment_type) && (w.wid >= edit_start_idx && w.wid < edit_end_idx || highlighted_amendments.includes(w.wid))}
-										<div class="absolute z-10 inset-0 bg-yellow-700 opacity-20"></div>
+									{#if para_idx === w.pid}
+										{#if ['correction','delete'].includes(w.amendment_type) && (w.wid >= edit_start_idx && w.wid < edit_end_idx || highlighted_amendments.includes(w.wid))}
+											<div class="absolute z-10 inset-0 bg-yellow-700 opacity-20"></div>
+										{/if}
+										{#if w.wid >= computed_highlight_start_idx && w.wid < computed_highlight_end_idx}
+											<div class="absolute z-20 inset-0 bg-blue-500 opacity-20"></div>
+										{/if}
 									{/if}
-									{#if w.wid >= computed_highlight_start_idx && w.wid < computed_highlight_end_idx}
-										<div class="absolute z-20 inset-0 bg-blue-500 opacity-20"></div>
+									<div style="line-height: 2" class="relative z-30 {isSymbol(w) ? 'pr-1 -ml-1' : 'px-1'}">
+										{w.wording}
+									</div>
+									{#if w.amendment_type === 'delete' || w.amendment_type === 'correction'}
+										<div class="bg-red-500 h-0.5 absolute inset-x-0 top-1/2"></div>
 									{/if}
-								{/if}
-								<div style="line-height: 2" class="relative z-30 {isSymbol(w) ? 'pr-1 -ml-1' : 'px-1'}">
-									{w.wording}
+									{#if w.comment}
+										<div class="absolute inset-x-0 bottom-1 comment-dot"></div>
+									{/if}
+									{#if cursor_idx === w.wid && para_idx === w.pid && !is_readonly}
+										<div bind:this={cursor_el}
+										     class="{cursor_visible ? 'cursor' : 'opacity-0'} bg-blue-500 w-0.5 ml-0.5 absolute inset-y-0 left-0 z-30"></div>
+									{/if}
 								</div>
-								{#if w.amendment_type === 'delete' || w.amendment_type === 'correction'}
-									<div class="bg-red-500 h-0.5 absolute inset-x-0 top-1/2"></div>
-								{/if}
-								{#if w.comment}
-									<div class="absolute inset-x-0 bottom-1 comment-dot"></div>
-								{/if}
-								{#if cursor_idx === w.wid && para_idx === w.pid && !is_readonly}
-									<div bind:this={cursor_el}
-									     class="{cursor_visible ? 'cursor' : 'opacity-0'} bg-blue-500 w-0.5 ml-0.5 absolute inset-y-0 left-0 z-30"></div>
-								{/if}
-							</div>
+							{/if}
 						{/each}
 					</div>
 				{/each}
 			{/if}
 			{#each edit_log as w}
 				{#if w.type === 'add'}
-					<div style="font-size: 0.9em" class="{w.pid === para_idx && (edit_start_idx === w.start_wid || highlighted_amendments.includes(w.start_wid)) ? 'bg-yellow-700 bg-opacity-20' : ''} select-none absolute text-green-700 leading-none px-1 py-1 transform -translate-x-1/2 whitespace-nowrap" use:getPosition={w}>{w.text}</div>
-					<div class="{w.pid === para_idx && edit_start_idx === w.start_wid ? 'bg-yellow-700 bg-opacity-20' : ''} select-none absolute text-red-500 leading-none px-1 py-1 transform -translate-x-1/2 mt-8 scale-y-150 font-bold" use:getPosition={w}>^</div>
+<!--					<div style="font-size: 0.9em" class="{w.pid === para_idx && (edit_start_idx === w.start_wid || highlighted_amendments.includes(w.start_wid)) ? 'bg-yellow-700 bg-opacity-20' : ''} select-none absolute text-green-700 leading-none px-1 py-1 transform -translate-x-1/2 whitespace-nowrap" use:getPosition={w}>{w.text}</div>-->
+<!--					<div class="{w.pid === para_idx && edit_start_idx === w.start_wid ? 'bg-yellow-700 bg-opacity-20' : ''} select-none absolute text-red-500 leading-none px-1 py-1 transform -translate-x-1/2 mt-8 scale-y-150 font-bold" use:getPosition={w}>^</div>-->
 				{/if}
 				{#if w.type === 'correction'}
-					<div style="font-size: 0.9em" class="select-none absolute text-green-700 leading-none px-1 py-1 whitespace-nowrap" use:getPosition={w}>{w.text}</div>
+<!--					<div style="font-size: 0.9em" class="select-none absolute text-green-700 leading-none px-1 py-1 whitespace-nowrap" use:getPosition={w}>{w.text}</div>-->
 				{/if}
 				{#if w.type === 'next-paragraph'}
 					<div
