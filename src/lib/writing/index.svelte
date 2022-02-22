@@ -50,11 +50,19 @@
 	let is_long_press
 	let wait_for_highlight_end
 
+	let computed_para = JSON.parse(JSON.stringify(para))
+
+	onMount(() => {
+		addRedText()
+	})
+
 	function numberRange (start, end) {
 		return new Array(end - start).fill().map((d, i) => i + start);
 	}
 
 	const addRedText = () => {
+		console.log('add red text')
+		computed_para = JSON.parse(JSON.stringify(para))
 		para.forEach(p => {
 			p.forEach(w => {
 				w.comment = false
@@ -70,10 +78,10 @@
 		})
 		edit_log.forEach(log => {
 			const {start_wid, end_wid, pid, text} = log
-			let _end_wid = end_wid || (start_wid + 1)
-			let idx = para[pid].findIndex(w => w.wid === _end_wid)
-			if (text) {
-				para[pid].splice(idx, 0, {
+			let _end_wid = end_wid || start_wid // insert has no end_wid
+			let idx = computed_para[pid].findIndex(w => w.wid === _end_wid)
+			if (text) { // cross out without adding words
+				computed_para[pid].splice(idx, 0, {
 					red_word: true,
 					text
 				})
@@ -86,17 +94,12 @@
 			})
 		})
 		para = para
-		console.log('para', para)
 		dispatch('update', {
 			comments,
 			edit_log,
 			para
 		})
 	}
-
-	addRedText()
-
-
 
 	$: {
 		if (cursor_idx >= 0) {
@@ -721,9 +724,9 @@
 		{/if}
 
 		<div style="font-size: {`${font_size/20}em`}" class="p-4 cursor-text" bind:this={editor_el}>
-			{#if para && para.length}
-				{#each para as p, i}
-					<div class="flex flex-wrap" class:mb-8={i < para.length - 1}>
+			{#if computed_para && computed_para.length}
+				{#each computed_para as p, i}
+					<div class="flex flex-wrap" class:mb-8={i < computed_para.length - 1}>
 						{#each p as w}
 							{#if w.red_word}
 								<div style="line-height: 2" class="text-red-500 px-0.5">{w.text}</div>
