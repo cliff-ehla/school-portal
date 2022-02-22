@@ -339,10 +339,11 @@
 				return cursor_idx = para[para_idx].length - 1
 			}
 		}
+		const is_not_red_word = !next_el.hasAttribute('data-red-word')
 		const {left, top} = next_el.getBoundingClientRect()
 		const is_next_line = top > anchor.top
 		const is_left = left > anchor.left
-		if (is_next_line && is_left) {
+		if (is_next_line && is_left && is_not_red_word) {
 			cursor_idx = Number(next_el.getAttribute('data-wid'))
 		} else if (next_el) {
 			seekForward(next_el, anchor)
@@ -359,10 +360,11 @@
 				return cursor_idx = 0
 			}
 		}
+		const is_not_red_word = !next_el.hasAttribute('data-red-word')
 		const {left, top} = next_el.getBoundingClientRect()
 		const is_prev_line = top < anchor.top
 		const is_left = left < anchor.left
-		if (is_prev_line && is_left) {
+		if (is_prev_line && is_left && is_not_red_word) {
 			cursor_idx = Number(next_el.getAttribute('data-wid'))
 		} else if (next_el) {
 			seekBackward(next_el, anchor)
@@ -734,7 +736,7 @@
 						{#each p as w}
 							{#if w.red_word}
 								{#each w.words as word}
-									<div style="line-height: 2" class="text-red-500 px-0.5 border-b border-red-500">{word}</div>
+									<div data-red-word style="line-height: 2" class="text-red-500 px-0.5 border-b border-red-500">{word}</div>
 								{/each}
 							{:else}
 								<div data-pid={w.pid} data-sid={w.sid} data-wid={w.wid}
