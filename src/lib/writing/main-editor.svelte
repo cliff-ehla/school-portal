@@ -764,21 +764,21 @@
 											<div class="absolute z-10 inset-0 bg-yellow-700 opacity-20"></div>
 										{/if}
 										{#if w.wid >= computed_highlight_start_idx && w.wid < computed_highlight_end_idx}
-											<div class="absolute z-20 inset-0 bg-blue-500 opacity-20"></div>
+											<div class="absolute z-20 inset-0 bg-red-500 opacity-20"></div>
 										{/if}
 									{/if}
 									<div style="line-height: 2" class="relative z-30 {isSymbol(w) ? 'pr-1 -ml-1' : 'px-1'}">
 										{w.wording}
 									</div>
 									{#if w.amendment_type === 'delete' || w.amendment_type === 'correction'}
-										<div class="bg-red-500 h-0.5 absolute inset-x-0 top-1/2"></div>
+										<div style="height: 3px" class="bg-red-500 absolute inset-x-0 top-1/2"></div>
 									{/if}
 									{#if w.comment}
 										<div class="absolute inset-x-0 bottom-1 comment-dot"></div>
 									{/if}
 									{#if cursor_idx === w.wid && para_idx === w.pid && !is_readonly}
 										<div bind:this={cursor_el}
-										     class="{cursor_visible ? 'cursor' : 'opacity-0'} bg-blue-500 w-0.5 ml-0.5 absolute inset-y-0 left-0 z-30"></div>
+										     class="{cursor_visible ? 'cursor' : 'opacity-0'} bg-red-500 w-0.5 ml-0.5 absolute inset-y-0 left-0 z-30"></div>
 									{/if}
 								</div>
 							{/if}
@@ -799,7 +799,7 @@
 			{#each comments as c, i}
 				<div
 					use:getPosition={c}
-					class="{!c.end_wid ? '-translate-x-1/2 transform' : ''} bg-blue-500 select-none mt-2.5 w-5 h-5 flex items-center justify-center text-white text-xs font-bold rounded-full absolute">
+					class="{!c.end_wid ? '-translate-x-1/2 transform' : ''} bg-red-500 select-none mt-2.5 w-5 h-5 flex items-center justify-center text-white text-xs font-bold rounded-full absolute">
 					{i+1}
 				</div>
 			{/each}
@@ -821,7 +821,7 @@
 					<div class="group flex items-center" class:mb-4={i < comments.length - 1}>
 						<div class="flex-1">
 							<div class="flex items-start">
-								<div style="font-size: 0.6em" class="bg-blue-500 flex-shrink-0 w-5 h-5 flex items-center justify-center text-white font-bold rounded-full">{i + 1}</div>
+								<div style="font-size: 0.6em" class="bg-red-500 flex-shrink-0 w-5 h-5 flex items-center justify-center text-white font-bold rounded-full">{i + 1}</div>
 								<div class="inline-block ml-1">
 									<p class="italic text-gray-400" style="font-size: 0.78em">{getTextByPosition(c.pid, c.start_wid, c.end_wid)}</p>
 								</div>
