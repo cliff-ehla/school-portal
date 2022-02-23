@@ -47,7 +47,7 @@
 	{:else}
 		<div class="px-4 py-2 rounded-t bg-blue-100 bg-opacity-50 text-blue-500">{title}</div>
 	{/if}
-	<textarea rows="2" placeholder={title} bind:value={text_value} class="rounded px-4 py-2 w-full h-full focus:outline-none" use:onFocus></textarea>
+	<textarea rows="3" placeholder={title} bind:value={text_value} class="rounded px-4 py-2 w-full h-full focus:outline-none" use:onFocus></textarea>
 	<div class="px-2 py-2 flex justify-between border-t border-gray-200">
 		<button on:click={onCancelClick} class="{text_class} border-gray-300 border rounded px-2 py-1">Cancel</button>
 		<button on:click={onConfirmClick} class="{bg_class} text-white rounded px-2 py-1 ml-4">Confirm</button>

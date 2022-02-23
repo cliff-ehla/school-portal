@@ -653,12 +653,13 @@
 		para_idx = word.pid
 		edit_start_idx = word.start_wid
 		edit_end_idx = word.end_wid
+		edit_type = 'correction'
 	}
 </script>
 
 <svelte:window on:keydown={onkeydown} on:mousemove={onMouseMove} on:resize={onWindowResize}/>
 
-<div class="text-xs p-4 leading-tight hidden" style="font-size: 12px">
+<div class="text-xs p-4 leading-tight" style="font-size: 12px">
 	<p>cursor: {cursor_idx}</p>
 	<p>para: {para_idx}</p>
 	<p>mouse start: {mousedown_start_idx}</p>
@@ -790,7 +791,7 @@
 				{#if w.type === 'next-paragraph'}
 					<div
 						class="{w.pid === para_idx && w.start_wid === edit_start_idx ? 'bg-yellow-700 bg-opacity-20' : ''} select-none absolute text-red-500 px-1 py-1 transform -translate-x-1/2" use:getPosition={w}>
-						<svg class="fill-current w-4" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<svg class="fill-current w-6" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M12 2.51911C8.49778 3.74044 6 7.08178 6 11.0009C6 15.6391 9.49956 19.4613 14 19.9609V34H18V6H22V34H26V6H30V2H12V2.51911Z"/>
 						</svg>
 					</div>
@@ -808,7 +809,7 @@
 			<div class="p-4 border-t border-gray-200">
 				{#if is_any_next_para_symbol}
 					<div class="mb-4">
-						<svg class="fill-current w-4 text-red-500" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<svg class="fill-current w-6 text-red-500" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M12 2.51911C8.49778 3.74044 6 7.08178 6 11.0009C6 15.6391 9.49956 19.4613 14 19.9609V34H18V6H22V34H26V6H30V2H12V2.51911Z"/>
 						</svg>
 						<div class="text-gray-500 flex">
