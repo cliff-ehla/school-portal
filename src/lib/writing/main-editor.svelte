@@ -648,6 +648,12 @@
 	const onActivate = () => {
 		text_editor_active = true
 	}
+
+	const onRedWordClick = (word) => {
+		para_idx = word.pid
+		edit_start_idx = word.start_wid
+		edit_end_idx = word.end_wid
+	}
 </script>
 
 <svelte:window on:keydown={onkeydown} on:mousemove={onMouseMove} on:resize={onWindowResize}/>
@@ -741,7 +747,7 @@
 						{#each p as w}
 							{#if w.red_word}
 								{#each w.words as word}
-									<div data-red-word style="line-height: 2"
+									<div on:click={() => {onRedWordClick(word)}} data-red-word style="line-height: 2"
 									     class="text-red-500 px-0.5 border-b border-red-500 relative">
 										{word.word}
 										{#if (para_idx === word.pid && word.start_wid === edit_start_idx && word.end_wid === edit_end_idx)}
