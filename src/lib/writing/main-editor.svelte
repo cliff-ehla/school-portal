@@ -31,6 +31,9 @@
 	let is_mouse_drag = false
 	$: computed_highlight_start_idx = highlight_end_idx < highlight_start_idx ? highlight_end_idx : highlight_start_idx
 	$: computed_highlight_end_idx = highlight_end_idx < highlight_start_idx ? highlight_start_idx : highlight_end_idx
+	$: comment_button_disabled = comments.some(c => {
+		return c.pid === para_idx && c.start_wid === cursor_idx
+	})
 
 	let edit_start_idx
 	let edit_end_idx
@@ -651,6 +654,7 @@
 
 	const onRedWordClick = (word) => {
 		para_idx = word.pid
+		cursor_idx = word.start_wid
 		edit_start_idx = word.start_wid
 		edit_end_idx = word.end_wid
 		edit_type = 'correction'
@@ -733,6 +737,7 @@
 					</button>
 					<div class="mx-1 border-l h-6 border-gray-300"></div>
 					<button class="tool-button" use:tooltip={'Add comment'}
+					        disabled={comment_button_disabled}
 					        class:active={active_button === 'comment'}
 					        on:click={() => {showPopup('comment')}}>
 						<CommentSvg/>
