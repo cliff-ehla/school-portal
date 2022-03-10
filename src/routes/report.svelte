@@ -33,20 +33,40 @@
 		return data
 	}
 
-	const exportToExcel = () => {
-		exportFromJSON({
-			data: writing_report,
-			fileName: 'Writing report',
-			exportType: 'csv'
-		})
+	const exportToExcel = async (type) => {
+		if (type === 'writing') {
+			exportFromJSON({
+				data: writing_report,
+				fileName: 'Writing report',
+				exportType: 'csv'
+			})
+		} else if (type === 'reading') {
+			if (!reading_report) {
+				await getReport('reading')
+			}
+			exportFromJSON({
+				data: reading_report,
+				fileName: 'Reading report',
+				exportType: 'csv'
+			})
+		}
+	}
+
+	const capitalize = (text) => {
+		if (!text) return
+		return text.charAt(0).toUpperCase() + text.slice(1)
 	}
 </script>
 
 <div class="p-4 mb-4 border-b border-gray-300 flex">
 	{#each ['writing', 'reading'] as type}
-		<button class:font-bold={tab === type} on:click={() => {tab = type}} class="text-xl text-gray-500 mr-4">{type} report</button>
+		<div class="mr-8 flex items-center">
+			<button class:font-bold={tab === type} on:click={() => {tab = type}} class="text-xl text-gray-500">{capitalize(type)} report</button>
+			<button class="ml-1" on:click={() => {exportToExcel(type)}}>
+				<img title="Download" class="w-6 transition transform hover:-translate-y-1" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAACnUlEQVRoge2YXUhUQRiGn7HVRVddc8k0QawQw6hQohKSlsp+oDulQBGCbuxGQ1itDIx+IIWINKK86S4o6ibFEG9ywQzCEJLVSCylorYf1CJaXXe6SPvZ1ePZs3tczfNcfsP3zfvOzHc4M2BgYGAQSYTWxJSrReUg6oHEYHNtuRu1TDkupKx27Tp38+9glJZKv9AmPgQSpYiq9w+GYGBBxU8jrf6RUAwsCgwDkcYwEGlM/gFLVf4JkBcEWJQSvw+/Ua4cJYixWjElxoemcB4CDKgRrwqfZGJ0lImpqYChFe53IZefIeAIhUX8DDJsleZkyffA8jBgNkXTe+ouXy93U2Ev+R3PSE7jU70T96VHZNrSdROphCoDHu8kZ1quAVC1u4x4cxwAdQfLMZuiaei4xevPb/VTqYDqI9Ta56Rj4Ak2SxLHCw6zaU0Wxbl7Gfw4QlPnbT01KjLLZ3RuTj9oxJ61lQp7CYUbdiAQVN5rwOOd1EvfvATVxAMfXtHcdZ+k2ATy127hzrN2nIM9emlTRVA7AJAwff4BhJj/QmfpDuwNT0pCsNPOSVA7ULA+j7Jth3g63EfXUC9H8vazJ3t72MRoQbUBsymaK0UOhBCcbbtBbUsTUkoai2uIi4nVU6Miqg2c3HeM7NWZtPc/xjnYQ8+Ii9Y+JxnJadQUHtVToyKqDOSkrqPSXopP+jj/8M+jQF3bdby+KSrspWxOz9JNpBKqmtj1fojk6oKA+Ev3CCsdO8MuKhiWx7/QYmY2A9/CVt2n/4Vgth6oBS4Cod0FfVKa3Z4fgMd/yPb8i+ay/pma30ZTD+RoXl5rxiqtqbxo7vxH83/ZA0sKw0CkWdYGxsOmQj1j/gHNBoQQDhABBXVkTEocCzifgYGBgQp+AlpMnf09Cu/RAAAAAElFTkSuQmCC"/>
+			</button>
+		</div>
 	{/each}
-	<button class="ml-auto" on:click={exportToExcel}>Export</button>
 </div>
 {#if tab === 'writing'}
 	<tr class="sticky top-0 bg-white">
