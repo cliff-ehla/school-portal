@@ -2,6 +2,8 @@
 	import {http} from "$lib/http.js";
 	import {onMount} from "svelte";
 	import dayjs from 'dayjs'
+	import exportFromJSON from 'export-from-json'
+
 	let students
 	onMount(async () => {
 		let {data} =  await http.post(fetch, '/schoolApi/overall_writing_report', {
@@ -11,10 +13,19 @@
 		})
 		students = data
 	})
+
+	const exportToExcel = () => {
+		exportFromJSON({
+			data: students,
+			fileName: 'Writing report',
+			exportType: 'csv'
+		})
+	}
 </script>
 
 <div class="p-4 mb-4 border-b border-gray-300">
 	<p class="text-xl text-gray-500">Writing report</p>
+	<button on:click={exportToExcel}>export</button>
 </div>
 {#if students}
 	<tr class="sticky top-0 bg-white">

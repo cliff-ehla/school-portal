@@ -676,6 +676,11 @@ estree-walker@^2.0.1:
   resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-2.0.2.tgz#52f010178c2a4c117a7757cfe942adb7d2da4cac"
   integrity sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==
 
+export-from-json@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/export-from-json/-/export-from-json-1.5.2.tgz#5a6b098e7e3d863b2dd09b11401ad977171cf386"
+  integrity sha512-LFgpRKmRUKhUX/ikefSW2dxewwzl53E4vQRlC2ZDFzvcwPw15P7/+0ldUBbCg+nh5kjwCy2zqYp2gaJQkkPAQQ==
+
 fast-glob@^3.2.11, fast-glob@^3.2.7:
   version "3.2.11"
   resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.2.11.tgz#a1172ad95ceb8a16e20caa5c5e56480e5129c1d9"
