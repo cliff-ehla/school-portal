@@ -14,7 +14,6 @@
 
 <script>
 	export let user_info
-	console.log('cliff: ', user_info)
 </script>
 
-<p>{user_info.username}</p>
+<p>username: {user_info.username}</p>
