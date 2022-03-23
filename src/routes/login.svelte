@@ -10,7 +10,7 @@
 	const {session} = getStores()
 	const is_production_url = api_base === 'https://usermodel.ehlacademy.org'
 
-	let username = env !== 'production' ? is_production_url ? 'cliff.admin' : 'queeniedevt14' : ''
+	let username = env !== 'production' ? is_production_url ? 'csl.ehlait' : 'queeniedevt14' : ''
 	let password = env !== 'production' ? is_production_url ? '12345678' : 'q12345678' : ''
 	let error = false
 	let loading = false
