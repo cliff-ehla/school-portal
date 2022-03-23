@@ -2,7 +2,7 @@
 	import {http} from "$lib/http.js";
 	import {onMount} from "svelte";
 	import dayjs from 'dayjs'
-	import exportFromJSON from 'export-from-json'
+	// import exportFromJSON from 'export-from-json'
 
 	let tab = 'writing'
 	let writing_report
@@ -30,22 +30,22 @@
 	}
 
 	const exportToExcel = async (type) => {
-		if (type === 'writing') {
-			exportFromJSON({
-				data: writing_report,
-				fileName: 'Writing report',
-				exportType: 'csv'
-			})
-		} else if (type === 'reading') {
-			if (!reading_report) {
-				await getReport('reading')
-			}
-			exportFromJSON({
-				data: reading_report,
-				fileName: 'Reading report',
-				exportType: 'csv'
-			})
-		}
+		// if (type === 'writing') {
+		// 	exportFromJSON({
+		// 		data: writing_report,
+		// 		fileName: 'Writing report',
+		// 		exportType: 'csv'
+		// 	})
+		// } else if (type === 'reading') {
+		// 	if (!reading_report) {
+		// 		await getReport('reading')
+		// 	}
+		// 	exportFromJSON({
+		// 		data: reading_report,
+		// 		fileName: 'Reading report',
+		// 		exportType: 'csv'
+		// 	})
+		// }
 	}
 
 	const capitalize = (text) => {
