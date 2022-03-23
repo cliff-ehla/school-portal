@@ -3,13 +3,16 @@ const base = variables.api_base + '/v1'
 const is_dev = variables.env === 'dev'
 const is_production_url = variables.api_base === 'https://usermodel.ehlacademy.org'
 
-export async function usermodel (request, resource, data) {
+export async function usermodel (event, data) {
+	const request = event.request
+	const resource = request.url.split('/api')[1]
+	const access_token = event.locals.access_token
 	if (request.method === 'POST' && data) {
 		data = { params: data }
 	}
 	const query = {
 		'encode': 1,
-		'access-token': 'Jodiehappytest' // TODO
+		'access-token': access_token
 	}
 	let url = `${base}${resource}`
 	for (const property in query) {

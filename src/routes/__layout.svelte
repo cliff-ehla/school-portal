@@ -5,6 +5,7 @@
 
 <Modal>
 <main>
+	<a href="/logout">logout</a>
 	<slot />
 </main>
 </Modal>
