@@ -31,6 +31,7 @@
 			</a>
 		{/each}
 	</div>
+	{#if $session.user_info}
 	<div class="ml-auto flex items-center">
 		<Dropdown open_on_hover={false} placement="bottom-end" activator_style="rounded-full ml-3">
 			<div slot="activator">
@@ -42,4 +43,5 @@
 			</div>
 		</Dropdown>
 	</div>
+	{/if}
 </div>
