@@ -5,7 +5,10 @@
 
 <Modal>
 <main>
-	<a href="/logout">logout</a>
+	<div class="z-10 top-0 fixed bg-gray-100">
+		<a href="/logout">logout</a>
+		<a href="/">home</a>
+	</div>
 	<slot />
 </main>
 </Modal>
