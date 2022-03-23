@@ -1,5 +1,4 @@
 <script>
-	import Icon from '$lib/ui/icon.svelte'
 	import Dropdown from '$lib/ui/dropdown.svelte'
 	import {page, session} from "$app/stores";
 
