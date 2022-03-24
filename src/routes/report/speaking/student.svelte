@@ -1,0 +1,37 @@
+<script context="module">
+	export const load = async ({stuff}) => {
+		return {
+			props: {
+				report: stuff.report
+			}
+		}
+	}
+</script>
+
+<script>
+	export let report
+</script>
+
+<table>
+	<tr class="sticky top-14 bg-white shadow">
+		<th>Student</th>
+		<th>Count</th>
+		<th>Score</th>
+	</tr>
+	{#each report.user_summary as s}
+		<tr>
+			<td>{s.nickname}</td>
+			<td>{s.sentence_cnt}</td>
+			<td>{Math.round(s.avg_mark)}</td>
+		</tr>
+	{/each}
+</table>
+
+<style>
+	table {
+		@apply w-full;
+	}
+	td, th {
+		@apply px-4 py-1 border-b border-gray-200 text-left;
+	}
+</style>
