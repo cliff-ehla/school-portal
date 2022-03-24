@@ -16,6 +16,7 @@
 
 <script>
 	export let lesson_list
+	console.log(JSON.stringify(lesson_list))
 	import dayjs from "dayjs";
 	const status_to_label = {
 		0: 'Not yet submit',
