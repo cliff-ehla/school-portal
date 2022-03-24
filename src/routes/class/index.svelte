@@ -22,7 +22,7 @@
 	<div class="p-4">
 		<p>{c.name}</p>
 		{#each c.tutor_groups as tg}
-			<p>{tg.title} ({tg.tutor_group_id})</p>
+			<a href="/class/{c.c_id}/tutor-group/{tg.tutor_group_id}">{tg.title} ({tg.tutor_group_id})</a>
 		{/each}
 	</div>
 {/each}
