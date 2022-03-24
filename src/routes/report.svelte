@@ -2,15 +2,21 @@
 	import {http} from "$lib/http.js";
 	import {onMount} from "svelte";
 	import dayjs from 'dayjs'
-	// import exportFromJSON from 'export-from-json'
+	import exportFromJSON from 'export-from-json'
 
 	let tab = 'writing'
 	let writing_report
 	let reading_report
+	let speaking_report
+	let speaking_average_report
 
 	$: {
 		if (tab === 'reading' && !reading_report) {
 			getReport('reading')
+		} else if (tab === 'speaking' && !speaking_report) {
+			getReport('speaking')
+		} else if (tab === 'speaking_average' && !speaking_average_report) {
+			getReport('speaking_average')
 		}
 	}
 
@@ -21,31 +27,32 @@
 	const getReport = async (type) => {
 		const {data} = await http.post(fetch, `/schoolApi/overall_${type}_report`, {
 			start_date: '2020-01-01 00:00:00',
-			end_date: '2099-01-01 00:00:00',
-			organization_id: "315"
+			end_date: '2099-01-01 00:00:00'
 		})
-		if (type === 'writing') writing_report = data
+		if (type === 'writing') writing_report = data.sort((a, b) => a.class_name < b.class_name ? 1 : -1)
 		else if (type === 'reading') reading_report = data.score_list
+		else if (type === 'speaking') speaking_report = data
+		else if (type === 'speaking_average') speaking_average_report = data
 		return data
 	}
 
 	const exportToExcel = async (type) => {
-		// if (type === 'writing') {
-		// 	exportFromJSON({
-		// 		data: writing_report,
-		// 		fileName: 'Writing report',
-		// 		exportType: 'csv'
-		// 	})
-		// } else if (type === 'reading') {
-		// 	if (!reading_report) {
-		// 		await getReport('reading')
-		// 	}
-		// 	exportFromJSON({
-		// 		data: reading_report,
-		// 		fileName: 'Reading report',
-		// 		exportType: 'csv'
-		// 	})
-		// }
+		if (type === 'writing') {
+			exportFromJSON({
+				data: writing_report,
+				fileName: 'Writing report',
+				exportType: 'csv'
+			})
+		} else if (type === 'reading') {
+			if (!reading_report) {
+				await getReport('reading')
+			}
+			exportFromJSON({
+				data: reading_report,
+				fileName: 'Reading report',
+				exportType: 'csv'
+			})
+		}
 	}
 
 	const capitalize = (text) => {
@@ -54,12 +61,16 @@
 	}
 </script>
 
-<div class="p-4 mb-4 border-b border-gray-300 flex">
-	{#each ['writing', 'reading'] as type}
+<div class="p-4 border-b border-gray-300 flex">
+	{#each ['writing', 'reading', 'speaking', 'speaking_average'] as type}
 		<div class="mr-8 flex items-center">
-			<button class:font-bold={tab === type} on:click={() => {tab = type}} class="text-xl {tab === type ? 'text-gray-800' : 'text-gray-400 hover:text-gray-500'} ">{capitalize(type)} report</button>
+			<button class:font-bold={tab === type} on:click={() => {tab = type}}
+			        class="text {tab === type ? 'text-gray-800' : 'text-gray-400 hover:text-gray-500'} ">{capitalize(type)}
+				report
+			</button>
 			<button class="ml-1" on:click={() => {exportToExcel(type)}}>
-				<img title="Download" class="w-6 transition transform hover:-translate-y-1" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAACnUlEQVRoge2YXUhUQRiGn7HVRVddc8k0QawQw6hQohKSlsp+oDulQBGCbuxGQ1itDIx+IIWINKK86S4o6ibFEG9ywQzCEJLVSCylorYf1CJaXXe6SPvZ1ePZs3tczfNcfsP3zfvOzHc4M2BgYGAQSYTWxJSrReUg6oHEYHNtuRu1TDkupKx27Tp38+9glJZKv9AmPgQSpYiq9w+GYGBBxU8jrf6RUAwsCgwDkcYwEGlM/gFLVf4JkBcEWJQSvw+/Ua4cJYixWjElxoemcB4CDKgRrwqfZGJ0lImpqYChFe53IZefIeAIhUX8DDJsleZkyffA8jBgNkXTe+ouXy93U2Ev+R3PSE7jU70T96VHZNrSdROphCoDHu8kZ1quAVC1u4x4cxwAdQfLMZuiaei4xevPb/VTqYDqI9Ta56Rj4Ak2SxLHCw6zaU0Wxbl7Gfw4QlPnbT01KjLLZ3RuTj9oxJ61lQp7CYUbdiAQVN5rwOOd1EvfvATVxAMfXtHcdZ+k2ATy127hzrN2nIM9emlTRVA7AJAwff4BhJj/QmfpDuwNT0pCsNPOSVA7ULA+j7Jth3g63EfXUC9H8vazJ3t72MRoQbUBsymaK0UOhBCcbbtBbUsTUkoai2uIi4nVU6Miqg2c3HeM7NWZtPc/xjnYQ8+Ii9Y+JxnJadQUHtVToyKqDOSkrqPSXopP+jj/8M+jQF3bdby+KSrspWxOz9JNpBKqmtj1fojk6oKA+Ev3CCsdO8MuKhiWx7/QYmY2A9/CVt2n/4Vgth6oBS4Cod0FfVKa3Z4fgMd/yPb8i+ay/pma30ZTD+RoXl5rxiqtqbxo7vxH83/ZA0sKw0CkWdYGxsOmQj1j/gHNBoQQDhABBXVkTEocCzifgYGBgQp+AlpMnf09Cu/RAAAAAElFTkSuQmCC"/>
+				<img title="Download" class="w-6 transition transform hover:-translate-y-1"
+				     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAACnUlEQVRoge2YXUhUQRiGn7HVRVddc8k0QawQw6hQohKSlsp+oDulQBGCbuxGQ1itDIx+IIWINKK86S4o6ibFEG9ywQzCEJLVSCylorYf1CJaXXe6SPvZ1ePZs3tczfNcfsP3zfvOzHc4M2BgYGAQSYTWxJSrReUg6oHEYHNtuRu1TDkupKx27Tp38+9glJZKv9AmPgQSpYiq9w+GYGBBxU8jrf6RUAwsCgwDkcYwEGlM/gFLVf4JkBcEWJQSvw+/Ua4cJYixWjElxoemcB4CDKgRrwqfZGJ0lImpqYChFe53IZefIeAIhUX8DDJsleZkyffA8jBgNkXTe+ouXy93U2Ev+R3PSE7jU70T96VHZNrSdROphCoDHu8kZ1quAVC1u4x4cxwAdQfLMZuiaei4xevPb/VTqYDqI9Ta56Rj4Ak2SxLHCw6zaU0Wxbl7Gfw4QlPnbT01KjLLZ3RuTj9oxJ61lQp7CYUbdiAQVN5rwOOd1EvfvATVxAMfXtHcdZ+k2ATy127hzrN2nIM9emlTRVA7AJAwff4BhJj/QmfpDuwNT0pCsNPOSVA7ULA+j7Jth3g63EfXUC9H8vazJ3t72MRoQbUBsymaK0UOhBCcbbtBbUsTUkoai2uIi4nVU6Miqg2c3HeM7NWZtPc/xjnYQ8+Ii9Y+JxnJadQUHtVToyKqDOSkrqPSXopP+jj/8M+jQF3bdby+KSrspWxOz9JNpBKqmtj1fojk6oKA+Ev3CCsdO8MuKhiWx7/QYmY2A9/CVt2n/4Vgth6oBS4Cod0FfVKa3Z4fgMd/yPb8i+ay/pma30ZTD+RoXl5rxiqtqbxo7vxH83/ZA0sKw0CkWdYGxsOmQj1j/gHNBoQQDhABBXVkTEocCzifgYGBgQp+AlpMnf09Cu/RAAAAAElFTkSuQmCC"/>
 			</button>
 		</div>
 	{/each}
@@ -106,7 +117,7 @@
 		{/each}
 	{/if}
 {:else if tab === 'reading'}
-	<tr class="sticky top-0 bg-white">
+	<tr class="sticky top-0 bg-white w-full">
 		<th>Name</th>
 		<th>Class</th>
 		<th>Gender</th>
@@ -128,11 +139,56 @@
 			</tr>
 		{/each}
 	{/if}
+{:else if tab === 'speaking'}
+	{#if speaking_report}
+		<div class="flex p-4">
+			<p>Students: <b>{speaking_report.participated_user_cnt}</b></p>
+			<p class="ml-4">Average usage per student: <b>{speaking_report.participated_average}</b></p>
+		</div>
+	{/if}
+	<tr class="sticky top-0 bg-white w-full">
+		<td>Title</td>
+		<td>Sentence</td>
+		<td>User count</td>
+		<td>Average mark</td>
+	</tr>
+	{#if speaking_report}
+		{#each speaking_report.score_list as s}
+			<tr>
+				<td>{s.title}</td>
+				<td>{s.sentence}</td>
+				<td>{s.user_cnt}</td>
+				<td>{s.avg_mark}</td>
+			</tr>
+		{/each}
+	{/if}
+{:else if tab === 'speaking_average'}
+	{#if speaking_average_report}
+		<div class="flex p-4">
+			<p>Average score: <b>{speaking_average_report.total_average}</b></p>
+			<p class="ml-4">Total user count: <b>{speaking_average_report.total_user_cnt}</b></p>
+		</div>
+	{/if}
+	<tr class="sticky top-0 bg-white w-full">
+		<th>Name</th>
+		<th>Mark</th>
+		<th>T.Mark</th>
+	</tr>
+	{#if speaking_average_report}
+		{#each speaking_average_report.score_average_list as s}
+			<tr>
+				<td>{s.username}</td>
+				<td>{s.mark}</td>
+				<td>{s.total_mark}</td>
+			</tr>
+		{/each}
+	{/if}
 {/if}
 <style>
 	th {
 		@apply leading-tight font-normal text-left;
 	}
+
 	td, th {
 		@apply px-4 border-b border-gray-300 py-2 text-sm;
 	}
