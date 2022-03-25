@@ -12,8 +12,12 @@
 .item {
 	@apply cursor-pointer px-2 py-2 hover:bg-gray-100 hover:text-blue-500 flex items-center w-full text-sm;
 }
+.button {
+	@apply bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700;
+}
 #tooltip {
-	@apply shadow border border-gray-300 rounded bg-white z-10 inline-block;
+	@apply border border-gray-300 rounded-lg bg-white z-10 inline-block;
+	box-shadow: 0 4px 20px -4px rgba(0,0,0,0.3);
 }
 #arrow,
 #arrow::before {
