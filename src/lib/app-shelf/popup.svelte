@@ -9,10 +9,13 @@
 	let component = null
 	let props = {}
 	let instance = null
+	let onCancel = () => {}
+	const emptyFunc = () => {}
 	const hidePopup = () => {
 		visible = false
 		instance = null
 		window.removeEventListener('click', onClickOutside)
+		onCancel()
 	}
 	const showPopup = async (target_el, _component, _props, config = {}) => {
 		if (visible) return
@@ -20,6 +23,7 @@
 		component = _component
 		props = _props
 		await tick()
+		onCancel = config.onCancel || emptyFunc
 		instance = createPopper(target_el, tooltip_el, {
 			onFirstUpdate: state => {
 				setTimeout(() => {
