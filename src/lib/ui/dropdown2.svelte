@@ -5,6 +5,9 @@
 	let popup_el
 	let ref_el
 	let visible = false
+	let delay = 350
+	let timeout_id
+	export let open_on_hover = true
 	onMount(() => {
 		setPos()
 		hide()
@@ -37,6 +40,15 @@
 		else
 			show()
 	}
+	const onMouseLeave = () => {
+		if (!open_on_hover) return
+		timeout_id = setTimeout(hide, delay)
+	}
+	const onMouseEnter = () => {
+		if (!open_on_hover) return
+		if (timeout_id) clearTimeout(timeout_id)
+		show()
+	}
 	const onWindowClick = (e) => {
 		hide()
 	}
@@ -47,7 +59,7 @@
 				{
 					name: 'offset',
 					options: {
-						offset: [0, 8],
+						offset: [0, 4],
 					},
 				}
 			],
@@ -55,10 +67,12 @@
 	}
 </script>
 
-<div bind:this={ref_el} on:click={toggle}>
-	<slot name="activator"></slot>
-</div>
-<div bind:this={popup_el} id="tooltip">
-	<div id="arrow" data-popper-arrow></div>
-	<slot/>
+<div on:mouseenter={onMouseEnter} on:mouseleave={onMouseLeave}>
+	<div bind:this={ref_el} on:click={toggle}>
+		<slot {visible} name="activator"></slot>
+	</div>
+	<div bind:this={popup_el} id="tooltip">
+		<div id="arrow" data-popper-arrow></div>
+		<slot/>
+	</div>
 </div>

@@ -37,8 +37,12 @@
 		{#each nav_items as item}
 			{#if item.children}
 				<Dropdown>
-					<div class="cursor-pointer relative h-14 flex items-center p-2 mx-1 font-light hover:bg-blue-50" slot="activator">{item.label}</div>
-					<div class="dropdown">
+					<div let:visible
+					     class:bg-blue-50={visible}
+					     class="cursor-pointer relative h-14 flex items-center p-2 mx-1 font-light hover:bg-blue-50" slot="activator">
+						{item.label}
+					</div>
+					<div class="bg-white p-4 rounded min-w-[120px]">
 						{#each item.children as c}
 							<a href={c.href} class="item">{c.label}</a>
 						{/each}
