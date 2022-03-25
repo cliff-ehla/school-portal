@@ -24,7 +24,7 @@ td, th {
 }
 
 #tooltip {
-	@apply border border-gray-300 rounded-lg bg-white z-10 inline-block;
+	@apply border border-gray-300 rounded-lg bg-white z-10;
 	box-shadow: 0 4px 20px -4px rgba(0,0,0,0.3);
 }
 #arrow,

@@ -1,19 +1,29 @@
 <script>
-	import Dropdown from '$lib/ui/dropdown.svelte'
+	import Dropdown from '$lib/ui/dropdown2.svelte'
 	import {page, session} from "$app/stores";
 
 	const nav_items = [
 		{
 			href: `/assignment`,
-			title: 'Assignment'
+			label: 'Assignment'
 		},
 		{
 			href: `/class`,
-			title: 'Class'
+			label: 'Class'
 		},
 		{
 			href: `/report`,
-			title: 'Report'
+			label: 'Report',
+			children: [
+				{
+					href: '/report/speaking/student',
+					label: 'Speaking'
+				},
+				{
+					href: '/report/writing/student',
+					label: 'Writing'
+				}
+			]
 		}
 	]
 </script>
@@ -25,9 +35,20 @@
 	</a>
 	<div class="flex items-center justify-center ml-6">
 		{#each nav_items as item}
-			<a class="relative h-14 flex items-center p-2 mx-1 font-light hover:bg-blue-50 group" class:text-blue-500={$page.url.pathname.includes(item.href)} href={item.href}>
-				<span>{item.title}</span>
-			</a>
+			{#if item.children}
+				<Dropdown>
+					<div class="cursor-pointer relative h-14 flex items-center p-2 mx-1 font-light hover:bg-blue-50" slot="activator">{item.label}</div>
+					<div class="dropdown">
+						{#each item.children as c}
+							<a href={c.href} class="item">{c.label}</a>
+						{/each}
+					</div>
+				</Dropdown>
+			{:else}
+				<a class="relative h-14 flex items-center p-2 mx-1 font-light hover:bg-blue-50 group" class:text-blue-500={$page.url.pathname.includes(item.href)} href={item.href}>
+					<span>{item.label}</span>
+				</a>
+			{/if}
 		{/each}
 	</div>
 	{#if $session.user_info}
