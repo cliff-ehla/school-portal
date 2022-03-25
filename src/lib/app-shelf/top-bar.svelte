@@ -53,7 +53,7 @@
 	</div>
 	{#if $session.user_info}
 	<div class="ml-auto flex items-center">
-		<Dropdown open_on_hover={false} placement="bottom-end" activator_style="rounded-full ml-3">
+		<Dropdown placement="bottom-end">
 			<div slot="activator">
 				<div class="rounded-full w-8 h-8 bg-cover bg-center" style="background-image: url({$session.user_info.profile_pic})"></div>
 			</div>
