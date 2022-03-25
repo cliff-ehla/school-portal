@@ -15,23 +15,27 @@
 <table>
 	<tr class="sticky top-14 bg-white shadow">
 		<th>Student</th>
+		<th>Class</th>
 		<th>Count</th>
-		<th>Score</th>
+		<th>Sys.Score</th>
+		<th>Teacher Score</th>
 	</tr>
 	{#each report.user_summary as s}
 		<tr>
 			<td>{s.nickname}</td>
-			<td>{s.sentence_cnt}</td>
-			<td>{Math.round(s.avg_mark)}</td>
+			<td>{s.class_name}</td>
+			<td>{s.rec_cnt}</td>
+			<td>{Math.round(s.system_mark)}</td>
+			<td>{Math.round(s.teacher_mark)}</td>
 		</tr>
 	{/each}
 </table>
 
 <style>
 	table {
-		@apply w-full;
+		@apply w-full text-sm text-gray-600;
 	}
 	td, th {
-		@apply px-4 py-1 border-b border-gray-200 text-left;
+		@apply px-4 py-2 border-b border-gray-200 text-left font-medium;
 	}
 </style>

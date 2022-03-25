@@ -7,7 +7,7 @@
 		<a href="/report/speaking/sentence">sentence</a>
 		<a class="font-bold" href="/report/writing/student">writing</a>
 		<a href="/report/writing/student">student</a>
-		<a href="/report/writing/sentence">article</a>
+		<a href="/report/writing/article">article</a>
 	</div>
 
 	<div class="flex-1">
