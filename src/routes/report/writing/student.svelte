@@ -30,12 +30,3 @@
 		</tr>
 	{/each}
 </table>
-
-<style>
-	table {
-		@apply w-full text-sm text-gray-600;
-	}
-	td, th {
-		@apply px-4 py-2 border-b border-gray-200 text-left font-medium;
-	}
-</style>

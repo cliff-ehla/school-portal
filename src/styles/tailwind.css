@@ -15,6 +15,14 @@
 .button {
 	@apply bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700;
 }
+
+table {
+	@apply w-full text-sm text-gray-600;
+}
+td, th {
+	@apply px-4 py-2 border-b border-gray-200 text-left font-medium;
+}
+
 #tooltip {
 	@apply border border-gray-300 rounded-lg bg-white z-10 inline-block;
 	box-shadow: 0 4px 20px -4px rgba(0,0,0,0.3);
