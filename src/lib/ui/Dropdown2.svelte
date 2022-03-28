@@ -3,6 +3,8 @@
 	import {onMount} from "svelte";
 	import gsap from 'gsap'
 	import {browser} from "$app/env";
+	import {createEventDispatcher} from "svelte";
+	const dispatch = createEventDispatcher()
 	let popup_el
 	let ref_el
 	let visible = false
@@ -28,7 +30,7 @@
 			ease: 'back.out'
 		}
 	}
-	const show = () => {
+	export const show = () => {
 		if (popper_instance) popper_instance.forceUpdate()
 		gsap.fromTo(popup_el, {
 			autoAlpha: 0,
@@ -40,15 +42,17 @@
 			ease: animation_params[animation].ease
 		})
 		visible = true
+		dispatch('show')
 		setTimeout(() => {
 			window.addEventListener('click', onWindowClick)
 		}, 10)
 	}
-	const hide = () => {
+	export const hide = () => {
 		gsap.set(popup_el, {
 			autoAlpha: 0
 		})
 		visible = false
+		dispatch('hide')
 		window.removeEventListener('click', onWindowClick)
 	}
 	const toggle = () => {
