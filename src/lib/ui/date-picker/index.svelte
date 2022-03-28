@@ -1,7 +1,7 @@
 <script>
 	import { createEventDispatcher } from "svelte";
 	import Calender from "./calendar.svelte";
-	import Dropdown2 from "../dropdown2.svelte";
+	import Dropdown2 from "../Dropdown2.svelte";
 	import dayjs from "dayjs";
 
 	const dispatch = createEventDispatcher();
