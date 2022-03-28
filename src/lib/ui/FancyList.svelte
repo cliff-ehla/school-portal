@@ -1,6 +1,6 @@
 <script>
 	import {createEventDispatcher} from "svelte";
-	import Dropdown2 from "$lib/ui/dropdown2.svelte";
+	import Dropdown2 from "$lib/ui/Dropdown2.svelte";
 	export let items
 	let value
 	const dispatch = createEventDispatcher()

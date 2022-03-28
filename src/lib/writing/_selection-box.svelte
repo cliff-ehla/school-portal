@@ -1,6 +1,6 @@
 <script>
-	import Icon from '$lib/ui/icon.svelte'
-	import Dropdown from '$lib/ui/dropdown.svelte'
+	import Icon from '$lib/ui/Icon.svelte'
+	import Dropdown from '$lib/ui/Dropdown.svelte'
 	import {createEventDispatcher} from 'svelte'
 	const dispatch = createEventDispatcher()
 	export let value = []

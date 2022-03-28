@@ -1,6 +1,6 @@
 <script>
 	import FancyList from "$lib/ui/FancyList.svelte";
-	import Icon from "$lib/ui/icon.svelte";
+	import Icon from "$lib/ui/Icon.svelte";
 	export let YYYY_MM_DD
 
 	let title

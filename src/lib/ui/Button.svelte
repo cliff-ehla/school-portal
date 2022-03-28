@@ -1,6 +1,6 @@
 <script>
 	import {is_loading} from "$lib/store/is_loading";
-	import Spinner from '$lib/ui/spinner.svelte'
+	import Spinner from '$lib/ui/Spinner.svelte'
 	export let disabled = false
 	export let button_class = 'px-4 py-2'
 	$: computed_disabled = disabled || $is_loading

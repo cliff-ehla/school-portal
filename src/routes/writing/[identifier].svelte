@@ -31,7 +31,7 @@
 	import WritingMarking from '$lib/writing/_writing_marking.svelte'
 	import WritingComment from '$lib/writing/_writing_comment.svelte'
 	import TemplateTextBox from '$lib/writing/_template-text-box.svelte'
-	import Button from '$lib/ui/button.svelte'
+	import Button from '$lib/ui/Button.svelte'
 	import {onMount} from "svelte";
 	import {notifications} from "$lib/store/notification.js";
 

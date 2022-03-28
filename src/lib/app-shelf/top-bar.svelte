@@ -1,5 +1,5 @@
 <script>
-	import Dropdown from '$lib/ui/dropdown2.svelte'
+	import Dropdown from '$lib/ui/Dropdown2.svelte'
 	import {page, session} from "$app/stores";
 
 	const nav_items = [
