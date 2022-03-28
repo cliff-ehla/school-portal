@@ -1,11 +1,14 @@
 <script>
 	import DropdownSelect from "$lib/ui/DropdownSelect.svelte";
+	import Calendar from '$lib/ui/date-picker/index.svelte'
 	import Icon from "$lib/ui/Icon.svelte";
+	import dayjs from "dayjs";
 	export let YYYY_MM_DD
 
 	let title
 	let description
 	let class_id
+	let start_date = dayjs().toDate()
 	const focus = node => {
 		node.focus()
 	}
@@ -37,10 +40,10 @@
 
 		<div class="flex items-center mb-2">
 			<div class="w-12 flex-shrink-0 text-xs text-slate-500">日期</div>
-			<div class="flex">
-				<p class="text-sm bg-slate-100 text-slate-500 px-2 py-1">{YYYY_MM_DD}</p>
-				<p> - </p>
-				<p class="text-sm bg-slate-100 text-slate-500 px-2 py-1">{YYYY_MM_DD}</p>
+			<div class="flex items-center">
+				<Calendar selected={start_date} on:datechange={e => {start_date = e.detail}}/>
+				<p class="text-xs mx-1 text-gray-500"> 至 </p>
+				<Calendar/>
 			</div>
 		</div>
 
