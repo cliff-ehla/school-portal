@@ -46,9 +46,10 @@
 
 		<div class="flex items-center mb-2">
 			<div class="w-12 flex-shrink-0 text-xs text-slate-500">班別</div>
-			<FancyList on:input={e => {class_id = e.detail.id}} items={classes} let:item={c} let:value={v}>
-				<div class="bg-slate-100 text-slate-500 h-8 px-2 flex items-center text-sm">
-					{v ? v.label : '- 請選擇 -'}
+			<FancyList on:input={e => {class_id = e.detail.id}} items={classes} let:item={c} let:value={v} let:visible>
+				<div class="cursor-pointer bg-slate-100 text-slate-500 h-8 px-2 flex items-center text-sm">
+					<span>{v ? v.label : '請選擇'}</span>
+					<Icon name="right" className="w-2.5 ml-2 transition-transform transform {visible ? '-rotate-90' : 'rotate-90'}"/>
 				</div>
 				<div slot="item">{c.label}</div>
 			</FancyList>

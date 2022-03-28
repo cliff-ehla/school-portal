@@ -36,7 +36,7 @@
 	<div class="flex items-center justify-center ml-6">
 		{#each nav_items as item}
 			{#if item.children}
-				<Dropdown>
+				<Dropdown offset="4" animation="strong">
 					<div let:visible
 					     class:bg-blue-50={visible}
 					     class="cursor-pointer relative h-14 flex items-center p-2 mx-1 font-light hover:bg-blue-50" slot="activator">

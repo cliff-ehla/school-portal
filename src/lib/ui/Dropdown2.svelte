@@ -2,6 +2,7 @@
 	import {createPopper} from '@popperjs/core'
 	import {onMount} from "svelte";
 	import gsap from 'gsap'
+	import {browser} from "$app/env";
 	let popup_el
 	let ref_el
 	let visible = false
@@ -9,22 +10,34 @@
 	let timeout_id
 	let popper_instance
 	export let offset = 4
-	export let placement = 'bottom-center'
+	export let placement = 'bottom'
 	export let open_on_hover = true
+	export let show_arrow = true
+	export let animation = 'mild' // mild, strong
 	onMount(() => {
-		setPos()
+		init()
 		hide()
 	})
+	const animation_params = {
+		mild: {
+			scale: 0.5,
+			ease: 'sine.out'
+		},
+		strong: {
+			scale: 0,
+			ease: 'back.out'
+		}
+	}
 	const show = () => {
-		popper_instance.forceUpdate()
+		if (popper_instance) popper_instance.forceUpdate()
 		gsap.fromTo(popup_el, {
 			autoAlpha: 0,
-			scale: 0
+			scale: animation_params[animation].scale
 		}, {
 			autoAlpha: 1,
 			scale: 1,
 			duration: 0.2,
-			ease: "back.out"
+			ease: animation_params[animation].ease
 		})
 		visible = true
 		setTimeout(() => {
@@ -56,7 +69,7 @@
 	const onWindowClick = (e) => {
 		hide()
 	}
-	const setPos = () => {
+	const init = () => {
 		popper_instance = createPopper(ref_el, popup_el, {
 			placement,
 			modifiers: [
@@ -75,8 +88,8 @@
 	<div class="inline-block" bind:this={ref_el} on:click={toggle}>
 		<slot {visible} name="activator"></slot>
 	</div>
-	<div bind:this={popup_el} id="tooltip">
-		<div id="arrow" data-popper-arrow></div>
+	<div class:hidden={!browser} bind:this={popup_el} id="tooltip">
+		<div class:hidden={!show_arrow} id="arrow" data-popper-arrow></div>
 		<slot/>
 	</div>
 </div>

@@ -11,9 +11,9 @@
 	}
 </script>
 
-<Dropdown2 open_on_hover={false} offset={0} placement="bottom">
+<Dropdown2 open_on_hover={false} show_arrow={false} animation="mild" offset={0} placement="bottom" let:visible>
 	<div class="inline-block" slot="activator">
-		<slot value={value}></slot>
+		<slot value={value} {visible}></slot>
 	</div>
 	<ul class="dropdown">
 		{#each items as item}
