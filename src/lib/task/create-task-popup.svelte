@@ -1,5 +1,5 @@
 <script>
-	import FancyList from "$lib/ui/FancyList.svelte";
+	import DropdownSelect from "$lib/ui/DropdownSelect.svelte";
 	import Icon from "$lib/ui/Icon.svelte";
 	export let YYYY_MM_DD
 
@@ -46,7 +46,7 @@
 
 		<div class="flex items-center mb-2">
 			<div class="w-12 flex-shrink-0 text-xs text-slate-500">班別</div>
-			<FancyList on:input={e => {class_id = e.detail.id}}
+			<DropdownSelect on:input={e => {class_id = e.detail.id}}
 			           items={classes}
 			           let:item={c}
 			           let:value={v}
@@ -57,7 +57,7 @@
 					<Icon name="right" className="w-2.5 ml-2 transition-transform transform {visible ? '-rotate-90' : 'rotate-90'}"/>
 				</div>
 				<div slot="item">{c.label}</div>
-			</FancyList>
+			</DropdownSelect>
 		</div>
 
 		<div class="h-[1px] bg-slate-200 my-2"></div>
