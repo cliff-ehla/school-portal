@@ -9,6 +9,7 @@
 	let description
 	let class_id
 	let start_date = dayjs().toDate()
+	let end_date = dayjs(YYYY_MM_DD).toDate()
 	const focus = node => {
 		node.focus()
 	}
@@ -26,8 +27,8 @@
 </script>
 
 <div class="">
-	<div class="px-4 py-2 bg-slate-200 flex items-center">
-		<p class="text-sm text-blue-500">Writing assigment</p>
+	<div class="px-4 py-2 bg-slate-100 flex items-center">
+		<p class="text-lg text-blue-500">建立朗讀練習</p>
 		<div class="ml-auto">
 			<Icon name="close" className="w-3 text-slate-500"/>
 		</div>
@@ -35,7 +36,11 @@
 	<div class="p-4">
 		<div class="flex items-center mb-2">
 			<div class="w-12 flex-shrink-0 text-xs text-slate-500"></div>
-			<input bind:value={title} use:focus type="text" placeholder="標題" class="bg-transparent text-xl outline-none w-full pb-1 border-b-2 border-gray-300 focus:border-blue-500">
+			<input bind:value={title}
+			       use:focus
+			       type="text"
+			       placeholder="標題"
+			       class="bg-transparent text-xl outline-none w-full pb-1 border-b-2 border-gray-300 focus:border-blue-500">
 		</div>
 
 		<div class="flex items-center mb-2">
@@ -43,7 +48,7 @@
 			<div class="flex items-center">
 				<Calendar selected={start_date} on:datechange={e => {start_date = e.detail}}/>
 				<p class="text-xs mx-1 text-gray-500"> 至 </p>
-				<Calendar/>
+				<Calendar selected={end_date} on:datechange={e => {end_date = e.detail}}/>
 			</div>
 		</div>
 
@@ -73,7 +78,7 @@
 
 		<div class="flex items-center">
 			<div class="w-12 flex-shrink-0 text-xs text-slate-500">內容</div>
-			<textarea bind:value={description} rows="3" use:focus type="text" placeholder="內容"
+			<textarea bind:value={description} rows="3" type="text" placeholder="內容"
 			          class="bg-slate-100 text-slate-500 p-2 flex items-center text-sm w-full rounded"></textarea>
 		</div>
 	</div>
