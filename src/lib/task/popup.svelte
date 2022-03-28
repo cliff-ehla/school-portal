@@ -27,9 +27,9 @@
 	<p>25 submitted</p>
 	<p>3 late</p>
 	<p>4 below average</p>
-	{#if sentences}
-		{#each sentences as s}
-			<p>{s.sentence}</p>
-		{/each}
-	{/if}
+	<!--{#if sentences}-->
+	<!--	{#each sentences as s}-->
+	<!--		<p>{s.sentence}</p>-->
+	<!--	{/each}-->
+	<!--{/if}-->
 </div>

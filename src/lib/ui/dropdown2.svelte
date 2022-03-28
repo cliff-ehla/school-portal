@@ -7,12 +7,16 @@
 	let visible = false
 	let delay = 350
 	let timeout_id
+	let popper_instance
+	export let offset = 4
+	export let placement = 'bottom-center'
 	export let open_on_hover = true
 	onMount(() => {
 		setPos()
 		hide()
 	})
 	const show = () => {
+		popper_instance.forceUpdate()
 		gsap.fromTo(popup_el, {
 			autoAlpha: 0,
 			scale: 0
@@ -53,13 +57,13 @@
 		hide()
 	}
 	const setPos = () => {
-		createPopper(ref_el, popup_el, {
-			placement: 'bottom',
+		popper_instance = createPopper(ref_el, popup_el, {
+			placement,
 			modifiers: [
 				{
 					name: 'offset',
 					options: {
-						offset: [0, 4],
+						offset: [0, offset],
 					},
 				}
 			],
@@ -68,7 +72,7 @@
 </script>
 
 <div on:mouseenter={onMouseEnter} on:mouseleave={onMouseLeave}>
-	<div bind:this={ref_el} on:click={toggle}>
+	<div class="inline-block" bind:this={ref_el} on:click={toggle}>
 		<slot {visible} name="activator"></slot>
 	</div>
 	<div bind:this={popup_el} id="tooltip">
