@@ -37,7 +37,7 @@
 		{/if}
 		{#if lesson.assignment}
 			{#each lesson.assignment as s}
-				<a href="/writing/{s.identifier}" class="cursor-pointer block p-4 border-b border-gray-200 grid grid-cols-4 items-center gap-2 group hover:bg-gray-100 w-full bg-white">
+				<a href="/writing/{s.identifier}/read-only" class="cursor-pointer block p-4 border-b border-gray-200 grid grid-cols-4 items-center gap-2 group hover:bg-gray-100 w-full bg-white">
 					<div class="col-span-2 flex items-center">
 						<div class="ml-4 flex-2">
 							{s.nickname}

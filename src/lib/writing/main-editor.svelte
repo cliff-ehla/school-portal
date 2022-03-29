@@ -92,8 +92,13 @@
 				})
 			}
 		})
-		comments.forEach(c => {
+		comments.forEach((c,i) => {
 			let words = para[c.pid].slice(c.start_wid, c.end_wid)
+			let idx = computed_para[c.pid].findIndex(w => w.wid === c.start_wid)
+			computed_para[c.pid].splice(idx, 0, {
+				comment_indicator: true,
+				index: i + 1
+			})
 			words.forEach(w => {
 				w.comment = true
 			})
@@ -680,7 +685,6 @@
 	<p>wait_for_highlight_end: {wait_for_highlight_end}</p>
 </div>
 
-
 <div on:click={onActivate} id="writing-editor">
 	<div class="bg-white rounded border border-gray-300" class:border-blue-500={text_editor_active} bind:this={para_el}>
 		{#if !is_readonly}
@@ -761,6 +765,8 @@
 										{/if}
 									</div>
 								{/each}
+							{:else if w.comment_indicator}
+								<div class="my-2 text-xs font-bold w-5 h-5 cc bg-red-500 border border-red-500 text-white rounded-full">{w.index}</div>
 							{:else}
 								<div data-pid={w.pid} data-sid={w.sid} data-wid={w.wid}
 								     class="relative select-none word">
@@ -773,7 +779,8 @@
 											<div class="absolute z-20 inset-0 bg-red-500 opacity-20"></div>
 										{/if}
 									{/if}
-									<div style="line-height: 2" class="relative z-10 {isSymbol(w) ? 'pr-1 -ml-1' : 'px-1'}">
+									<div style="line-height: 2" class:line-through={w.amendment_type === 'delete' || w.amendment_type === 'correction'}
+									     class="line-through relative z-10 {isSymbol(w) ? 'pr-1 -ml-1' : 'px-1'}">
 										{w.wording}
 									</div>
 									{#if w.amendment_type === 'delete' || w.amendment_type === 'correction'}
@@ -803,11 +810,11 @@
 				{/if}
 			{/each}
 			{#each comments as c, i}
-				<div
-					use:getPosition={c}
-					class="{!c.end_wid ? '-translate-x-1/2 transform' : ''} bg-red-500 select-none mt-2.5 w-5 h-5 flex items-center justify-center text-white text-xs font-bold rounded-full absolute">
-					{i+1}
-				</div>
+<!--				<div-->
+<!--					use:getPosition={c}-->
+<!--					class="{!c.end_wid ? '-translate-x-1/2 transform' : ''} bg-red-500 select-none mt-2.5 w-5 h-5 flex items-center justify-center text-white text-xs font-bold rounded-full absolute">-->
+<!--					{i+1}-->
+<!--				</div>-->
 			{/each}
 		</div>
 		{#if comments.length || is_any_next_para_symbol}
@@ -896,5 +903,10 @@
 		background-image: url('/comment-underline.png');
 		height: 5px;
 		background-size: auto 5px;
+	}
+	@media print {
+		.print-bg {
+			background: red;
+		}
 	}
 </style>

@@ -28,7 +28,7 @@
 	]
 </script>
 
-<div class="h-14 items-center flex border-gray-300 border-b px-4 relative sticky bg-white z-30 top-0 inset-x-0">
+<div class="print-hidden h-14 items-center flex border-gray-300 border-b px-4 relative sticky bg-white z-30 top-0 inset-x-0">
 	<a href="/" class="inline-flex items-center ml-1">
 		<img src="/logo.png" alt="logo" class="w-8 mx-auto">
 		<p class="ml-2 text-lg font-light leading-none mt-0.5 text-black">School</p>
@@ -69,3 +69,11 @@
 	</div>
 	{/if}
 </div>
+
+<style>
+	@media print {
+		.print-hidden {
+			display: none;
+		}
+	}
+</style>
