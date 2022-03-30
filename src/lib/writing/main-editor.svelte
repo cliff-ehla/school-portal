@@ -654,10 +654,12 @@
 	})
 
 	const onActivate = () => {
+		if (is_readonly) return
 		text_editor_active = true
 	}
 
 	const onRedWordClick = (word) => {
+		if (is_readonly) return
 		para_idx = word.pid
 		cursor_idx = word.start_wid
 		edit_start_idx = word.start_wid
@@ -753,7 +755,7 @@
 		<div style="font-size: {`${font_size/20}em`}" class="p-4 cursor-text" bind:this={editor_el}>
 			{#if computed_para && computed_para.length}
 				{#each computed_para as p, i}
-					<div class="flex flex-wrap" class:mb-8={i < computed_para.length - 1}>
+					<div class="break-inside-avoid-page flex flex-wrap" class:mb-8={i < computed_para.length - 1}>
 						{#each p as w}
 							{#if w.red_word}
 								{#each w.words as word}
@@ -766,7 +768,7 @@
 									</div>
 								{/each}
 							{:else if w.comment_indicator}
-								<div class="my-2 text-xs font-bold w-5 h-5 cc bg-red-500 border border-red-500 text-white rounded-full">{w.index}</div>
+								<div class="comment-indicator my-2">{w.index}</div>
 							{:else}
 								<div data-pid={w.pid} data-sid={w.sid} data-wid={w.wid}
 								     class="relative select-none word">
@@ -779,15 +781,14 @@
 											<div class="absolute z-20 inset-0 bg-red-500 opacity-20"></div>
 										{/if}
 									{/if}
-									<div style="line-height: 2" class:line-through={w.amendment_type === 'delete' || w.amendment_type === 'correction'}
-									     class="line-through relative z-10 {isSymbol(w) ? 'pr-1 -ml-1' : 'px-1'}">
+									<div class:line-through={w.amendment_type === 'delete' || w.amendment_type === 'correction'}
+									     class:border-b-2={w.comment}
+									     class:border-red-500={w.comment}
+									     class="border-dashed leading-[2em] relative z-10 {isSymbol(w) ? 'pr-1 -ml-1' : 'px-1'}">
 										{w.wording}
 									</div>
 									{#if w.amendment_type === 'delete' || w.amendment_type === 'correction'}
 										<div style="height: 3px" class="bg-red-500 absolute inset-x-0 top-1/2"></div>
-									{/if}
-									{#if w.comment}
-										<div class="absolute inset-x-0 bottom-1 comment-dot"></div>
 									{/if}
 									{#if cursor_idx === w.wid && para_idx === w.pid && !is_readonly}
 										<div bind:this={cursor_el}
@@ -809,18 +810,11 @@
 					</div>
 				{/if}
 			{/each}
-			{#each comments as c, i}
-<!--				<div-->
-<!--					use:getPosition={c}-->
-<!--					class="{!c.end_wid ? '-translate-x-1/2 transform' : ''} bg-red-500 select-none mt-2.5 w-5 h-5 flex items-center justify-center text-white text-xs font-bold rounded-full absolute">-->
-<!--					{i+1}-->
-<!--				</div>-->
-			{/each}
 		</div>
 		{#if comments.length || is_any_next_para_symbol}
 			<div class="p-4 border-t border-gray-200">
 				{#if is_any_next_para_symbol}
-					<div class="mb-4">
+					<div class="break-inside-avoid-page	mb-4">
 						<svg class="fill-current w-6 text-red-500" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M12 2.51911C8.49778 3.74044 6 7.08178 6 11.0009C6 15.6391 9.49956 19.4613 14 19.9609V34H18V6H22V34H26V6H30V2H12V2.51911Z"/>
 						</svg>
@@ -831,17 +825,17 @@
 					</div>
 				{/if}
 				{#each comments as c,i}
-					<div class="group flex items-center" class:mb-4={i < comments.length - 1}>
+					<div class="break-inside-avoid-page	group flex items-center" class:mb-4={i < comments.length - 1}>
 						<div class="flex-1">
-							<div class="flex items-start">
-								<div style="font-size: 0.6em" class="bg-red-500 flex-shrink-0 w-5 h-5 flex items-center justify-center text-white font-bold rounded-full">{i + 1}</div>
+							<div class="flex items-center">
+								<div class="comment-indicator">{i + 1}</div>
 								<div class="inline-block ml-1">
-									<p class="italic text-gray-400" style="font-size: 0.78em">{getTextByPosition(c.pid, c.start_wid, c.end_wid)}</p>
+									<p class="italic text-red-500">{getTextByPosition(c.pid, c.start_wid, c.end_wid)}</p>
 								</div>
 							</div>
-							<div class="text-gray-500 flex items-start">
+							<div class="flex items-start">
 								<span class="text-xs text-gray-500 py-1">Comment:</span>
-								<span class="underline ml-1">{c.text}</span>
+								<span class="underline ml-1 text-gray-700">{c.text}</span>
 								{#if !is_readonly}
 									<div class="flex-shrink-0 ml-auto">
 										<button on:click={() => {onEditComment(c,i)}} class="ml-4 bg-gray-100 hover:bg-gray-200 rounded text-blue-500 px-2 py-1 flex justify-center items-center text-sm">
@@ -899,14 +893,17 @@
 		opacity: 0.3;
 		cursor: not-allowed;
 	}
-	.comment-dot {
-		background-image: url('/comment-underline.png');
-		height: 5px;
-		background-size: auto 5px;
+	.comment-indicator {
+		@apply text-xs font-bold w-5 h-5 flex items-center justify-center bg-red-500 text-white border border-red-500 rounded-full flex-shrink-0;
+		break-inside: avoid-page;
 	}
 	@media print {
-		.print-bg {
-			background: red;
+		.comment-indicator {
+			color: red;
+			font-weight: normal;
 		}
+	}
+	@page {
+		margin: 1cm 0cm;
 	}
 </style>
