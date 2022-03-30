@@ -15,7 +15,6 @@
 <script>
 	export let class_list
 	import Icon from "$lib/ui/Icon.svelte";
-	console.log('cliff: ', class_list)
 </script>
 
 <div class="container mx-auto py-4 grid grid-cols-3 gap-4">
