@@ -82,18 +82,22 @@
 					</div>
 				</div>
 			</div>
-			<div class="bg-white my-4 border border-gray-200 rounded">
-				<div class="pl-4 py-2 pr-4 border-l-8 border-gray-500 rounded">
-					<p class="mb-2">Teacher's comment:</p>
-					<p class="text-sm leading-loose italic">{overall_msg}</p>
-					{#each marking_category as c}
-						{#each c.comments as comment}
-							<p>{comment.comment_type}</p>
-							<p>{comment.comment_msg}</p>
+			{#if marking_category.some(c => c.comments.length) || overall_msg}
+				<div class="bg-white my-4 border border-gray-200 rounded">
+					<div class="pl-4 py-2 pr-4 border-l-8 border-gray-500 rounded text-sm">
+						<p class="mb-2">Teacher's comment:</p>
+						{#each marking_category as c}
+							{#if c.comments.length}
+								<ul>{capitalize(c.title)}</ul>
+								{#each c.comments as comment}
+									<li class="italic">{comment.comment_msg}</li>
+								{/each}
+							{/if}
 						{/each}
-					{/each}
+						<p class="leading-loose italic">{overall_msg}</p>
+					</div>
 				</div>
-			</div>
+			{/if}
 		{/if}
 		<Writing is_readonly={true} {para} {edit_log} {comments} {title} {writing_id}/>
 	</div>
