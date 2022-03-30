@@ -86,6 +86,12 @@
 				<div class="pl-4 py-2 pr-4 border-l-8 border-gray-500 rounded">
 					<p class="mb-2">Teacher's comment:</p>
 					<p class="text-sm leading-loose italic">{overall_msg}</p>
+					{#each marking_category as c}
+						{#each c.comments as comment}
+							<p>{comment.comment_type}</p>
+							<p>{comment.comment_msg}</p>
+						{/each}
+					{/each}
 				</div>
 			</div>
 		{/if}

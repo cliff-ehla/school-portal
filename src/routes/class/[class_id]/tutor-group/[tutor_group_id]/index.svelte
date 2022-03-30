@@ -31,13 +31,14 @@
 	<div class="p-4">
 		<p>{lesson.type}</p>
 <!--		<p>{lesson.lesson[0].article_id}</p>-->
-		<p>{dayjs(lesson.create_ts).format('DD MMM YYYY')} - {lesson.description}</p>
+		<p>{dayjs(lesson.due_time).format('DD MMM YYYY')} - {lesson.description}</p>
 		{#if lesson.not_completed_users}
 			<p>Late: {lesson.not_completed_users.length}</p>
 		{/if}
 		{#if lesson.assignment}
 			{#each lesson.assignment as s}
-				<a href="/writing/{s.identifier}/read-only" class="cursor-pointer block p-4 border-b border-gray-200 grid grid-cols-4 items-center gap-2 group hover:bg-gray-100 w-full bg-white">
+				<a href="{s.status == 2 || s.status == 3 ? `/writing/${s.identifier}/read-only` : `/writing/${s.identifier}`}"
+				   class="cursor-pointer block p-4 border-b border-gray-200 grid grid-cols-4 items-center gap-2 group hover:bg-gray-100 w-full bg-white">
 					<div class="col-span-2 flex items-center">
 						<div class="ml-4 flex-2">
 							{s.nickname}
