@@ -688,7 +688,7 @@
 </div>
 
 <div on:click={onActivate} id="writing-editor">
-	<div class="bg-white rounded border border-gray-300" class:border-blue-500={text_editor_active} bind:this={para_el}>
+	<div class="print-no-container bg-white rounded border border-gray-200" class:border-blue-500={text_editor_active} bind:this={para_el}>
 		{#if !is_readonly}
 			<div on:click={onToolbarClick} class="toolbar px-4 flex items-center py-1 text-gray-700 border-b border-gray-200 top-10 z-40 bg-white" style="font-size: 22px">
 				<div class="flex-1 flex items-center">
@@ -752,7 +752,7 @@
 			</div>
 		{/if}
 
-		<div style="font-size: {`${font_size/20}em`}" class="p-4 cursor-text" bind:this={editor_el}>
+		<div style="font-size: {`${font_size/20}em`}" class="print-p-0 p-4 cursor-text" bind:this={editor_el}>
 			{#if computed_para && computed_para.length}
 				{#each computed_para as p, i}
 					<div class="break-inside-avoid-page flex flex-wrap" class:mb-8={i < computed_para.length - 1}>
@@ -902,8 +902,15 @@
 			color: red;
 			font-weight: normal;
 		}
+		.print-p-0 {
+			padding: 0 0 1em 0;
+		}
+		.print-no-container {
+			background: transparent;
+			border: none;
+		}
 	}
 	@page {
-		margin: 1cm 0cm;
+		margin: 1cm 0;
 	}
 </style>
