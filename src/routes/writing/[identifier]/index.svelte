@@ -65,6 +65,20 @@
 		marking_category = _marking_category
 	})
 
+	const onSaveEditing = (e) => {
+		let {edit_log, para, comments} = e.detail
+		saveEditingJson(writing_id, edit_log, para, comments)
+	}
+
+	async function saveEditingJson (writing_id, edit_log, para, comments, _fetch) {
+		await http.post(fetch, '/writingApi/set_extra_json', {
+			user_writing_id: writing_id,
+			extra_json: {
+				edit_log, para, comments
+			}
+		})
+	}
+
 	const onSubmitClick = async (is_draft) => {
 		dialog.confirm({
 			title: disclose === '1' ? 'Reminder' : '',
@@ -100,7 +114,7 @@
 <div class="bg-gray-50">
 	<div class="p-4 max-w-screen-lg mx-auto">
 		<h1 class="font-light text-gray-700 mb-4" style="font-size: 1.8em">{title || 'No title'}</h1>
-		<Writing {para} {edit_log} {comments} {title} {writing_id}/>
+		<Writing on:update={onSaveEditing} {para} {edit_log} {comments} {title} {writing_id}/>
 
 		{#if user_handwriting_images && user_handwriting_images.length}
 			<div class="my-8 flex">
