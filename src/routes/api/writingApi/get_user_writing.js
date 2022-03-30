@@ -3,8 +3,6 @@ import {usermodel} from "$lib/usermodal";
 export const get = async (event) => {
 	const {body, status} = await usermodel(event)
 	const data = body.data
-	console.log(status, body, data)
-
 	let legacy_data = data[0].revised_result
 	let new_data = data[0].extra_json
 	let content = new_data ? new_data : parseLegacyData(legacy_data)
@@ -14,7 +12,9 @@ export const get = async (event) => {
 		edit_log,
 		comments,
 		title: data[0].title,
-		writing_id: data[0].id
+		writing_id: data[0].id,
+		update_ts: data[0].update_ts,
+		user_id: data[0].student_nickname,
 	}
 	return {
 		status,

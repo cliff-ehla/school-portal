@@ -10,10 +10,10 @@
 			status
 		} = await http.get(fetch, `/writingApi/get_user_writing?id=${identifier}`)
 		if (!success) return onFail(debug, status)
-		const {para, edit_log, comments, title, writing_id} = data
+		const {para, edit_log, comments, title, writing_id, update_ts, student_nickname} = data
 		return {
 			props: {
-				para, edit_log, comments, title, writing_id
+				para, edit_log, comments, title, writing_id, update_ts, student_nickname
 			}
 		}
 	}
@@ -26,9 +26,12 @@
 	export let comments
 	export let title
 	export let writing_id
+	export let update_ts
+	export let student_nickname
 	import Writing from '$lib/writing/index.svelte'
 	import {onMount} from "svelte";
 	import {capitalize} from "$lib/helper/capitalize.js";
+	import dayjs from "dayjs";
 
 	let marking_category
 	let user_handwriting_images
@@ -39,7 +42,6 @@
 		const {data, success} = await http.post(fetch, '/writingApi/get_student_writing_submission', {
 			user_writing_id: writing_id
 		})
-		console.log(data)
 		overall_msg = data.overall_msg
 		marking_category = data.marking_category
 		user_handwriting_images = data.user_handwriting_images
@@ -53,10 +55,10 @@
 				<div>
 					<h1 class="font-light text-gray-700 mb-1 text-4xl">{title || 'No title'}</h1>
 					<div>
-						<span>Submitted by</span>
-						<span>Wong Pui Shan</span>
-						<span>on</span>
-						<span>03 Mar 2022</span>
+						<span class="text-gray-500">Submitted by</span>
+						<span>{student_nickname}</span>
+						<span class="text-gray-500">on</span>
+						<span>{dayjs(update_ts).format('DD MMM YYYY')}</span>
 					</div>
 				</div>
 
@@ -72,8 +74,8 @@
 								<div class="text-xs flex">
 									<div class="w-20 mr-1">{capitalize(c.title)}</div>
 									<div>{c.user_mark}</div>
-									<div class="mx-0.5">/</div>
-									<div>{c.max_mark}</div>
+									<div class="text-gray-400 mx-0.5">/</div>
+									<div class="text-gray-500">{c.max_mark}</div>
 								</div>
 							{/each}
 						</div>
