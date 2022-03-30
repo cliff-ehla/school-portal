@@ -31,7 +31,7 @@
 	<div class="p-4">
 		<p>{lesson.type}</p>
 <!--		<p>{lesson.lesson[0].article_id}</p>-->
-		<p>{dayjs(lesson.due_time).format('DD MMM YYYY')} - {lesson.description}</p>
+		<p>{dayjs(lesson.start_time).format('DD MMM YYYY')} - {lesson.description}</p>
 		{#if lesson.not_completed_users}
 			<p>Late: {lesson.not_completed_users.length}</p>
 		{/if}

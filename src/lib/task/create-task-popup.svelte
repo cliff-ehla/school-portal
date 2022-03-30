@@ -2,28 +2,36 @@
 	import DropdownSelect from "$lib/ui/DropdownSelect.svelte";
 	import Calendar from '$lib/ui/date-picker/index.svelte'
 	import Icon from "$lib/ui/Icon.svelte";
+	import Button from "$lib/ui/Button.svelte";
 	import dayjs from "dayjs";
+	import {org_data} from "$lib/store/org_data.js";
+	import {http} from "$lib/http.js";
+	import {onMount} from "svelte";
 	export let YYYY_MM_DD
+
+	onMount(() => {
+		if (!$org_data.class_list) org_data.fetchData(fetch)
+	})
 
 	let title
 	let description
 	let class_id
 	let start_date = dayjs().toDate()
 	let end_date = dayjs(YYYY_MM_DD).toDate()
+
 	const focus = node => {
 		node.focus()
 	}
 
-	let classes = [
-		{
-			id: 1,
-			label: '1a',
-		},
-		{
-			id: 2,
-			label: '1b',
-		}
-	]
+	const onCreate = () => {
+		http.post(fetch, '/organizationApi/purchase_work_task', {
+			organization_id: $org_data.organization_id,
+			start_time: dayjs(end_date).format('YYYY-MM-DD 00:00:00'), // TODO: where is end time
+			title,
+			tutor_group_id: 2399,
+			vocab_list: ['apple']
+		})
+	}
 </script>
 
 <div class="">
@@ -54,17 +62,17 @@
 
 		<div class="flex items-center mb-2">
 			<div class="w-12 flex-shrink-0 text-xs text-slate-500">班別</div>
-			<DropdownSelect on:input={e => {class_id = e.detail.id}}
-			           items={classes}
+			<DropdownSelect on:input={e => {class_id = e.detail.c_id}}
+			           items={$org_data.class_list || []}
 			           let:item={c}
 			           let:value={v}
 			           let:visible
 			           let:focused>
 				<div class="cursor-pointer {focused || visible ? 'bg-slate-200' : 'bg-slate-100'} text-slate-500 h-8 px-2 flex items-center text-sm">
-					<span>{v ? v.label : '請選擇'}</span>
+					<span>{v ? v.name : '請選擇'}</span>
 					<Icon name="right" className="w-2.5 ml-2 transition-transform transform {visible ? '-rotate-90' : 'rotate-90'}"/>
 				</div>
-				<div slot="item">{c.label}</div>
+				<div slot="item">{c.name}</div>
 			</DropdownSelect>
 		</div>
 
@@ -83,7 +91,7 @@
 		</div>
 	</div>
 	<div class="py-2 px-4 border-t border-gray-200 flex justify-end">
-		<button class="button text-sm">建立</button>
+		<Button on:click={onCreate} class="button text-sm">建立</Button>
 	</div>
 </div>
 

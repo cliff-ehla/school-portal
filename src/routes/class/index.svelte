@@ -1,12 +1,14 @@
 <script context="module">
 	import {http, onFail} from "$lib/http";
+	import {org_data} from "$lib/store/org_data.js";
 
 	export const load = async ({fetch}) => {
 		const {data, success, debug} = await http.get(fetch, '/organizationApi/user_organization_data_v2')
 		if (!success) return onFail(debug)
+		org_data.setData(data[0])
 		return {
 			props: {
-				class_list: data[0].classes
+				class_list: data[0]
 			}
 		}
 	}
@@ -15,10 +17,12 @@
 <script>
 	export let class_list
 	import Icon from "$lib/ui/Icon.svelte";
+	console.log($org_data)
 </script>
 
 <div class="container mx-auto py-4 grid grid-cols-3 gap-4">
-	{#each class_list as c}
+	{#if $org_data.class_list}
+	{#each $org_data.class_list as c}
 		{#if c.tutor_groups.length > 1}
 			<div class="p-4 bg-slate-50 shadow rounded-lg text-center text-slate-600">
 				<p class="text-4xl font-light mb-2">{c.name}</p>
@@ -39,4 +43,5 @@
 			</a>
 		{/if}
 	{/each}
+	{/if}
 </div>

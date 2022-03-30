@@ -15,8 +15,8 @@
 <table>
 	<tr class="sticky top-14 bg-white shadow">
 		<th>Student</th>
-		<th>Count</th>
-		<th>Score</th>
+		<th>Sentence count</th>
+		<th>Average score</th>
 	</tr>
 	{#each report.user_summary as s}
 		<tr>
