@@ -16,18 +16,25 @@
 		if (!$org_data.class_list) org_data.fetchData(fetch)
 	})
 
+	let type_key_option = [
+		{
+			id: 'writing-ai',
+			label: 'Writing'
+		},
+		{
+			id: 'vocabulary-dictation',
+			label: 'Speaking'
+		}
+	]
+	let type_key
 	let title
-	let description
+	let article
 	let class_id
 	let start_date = dayjs().toDate()
 	let end_date = dayjs(YYYY_MM_DD).toDate()
 
 	const focus = node => {
 		node.focus()
-	}
-
-	const splitArticleIntoSentences = (article) => {
-		return article.split('\n')
 	}
 
 	const onCreate = async () => {
@@ -38,7 +45,7 @@
 			due_time: dayjs(end_date).format('YYYY-MM-DD 00:00:00'),
 			title,
 			tutor_group_id,
-			vocab_list: splitArticleIntoSentences(description)
+			vocab_list: article.split('\n')
 		})
 		hidePopup()
 		triggerReload()
@@ -53,6 +60,15 @@
 		</div>
 	</div>
 	<div class="p-4">
+		<div class="flex items-center mb-2">
+			{#each type_key_option as option}
+				<button class="btn focus:bg-red-300 mr-1"
+				        class:bg-blue-500={option.id === type_key}
+				        on:click={() => {type_key = option.id}}>
+					{option.label}
+				</button>
+			{/each}
+		</div>
 		<div class="flex items-center mb-2">
 			<div class="w-12 flex-shrink-0 text-xs text-slate-500"></div>
 			<input bind:value={title}
@@ -89,7 +105,7 @@
 
 		<div class="flex items-center">
 			<div class="w-12 flex-shrink-0 text-xs text-slate-500">內容</div>
-			<textarea bind:value={description} rows="3" type="text" placeholder="內容"
+			<textarea bind:value={article} rows="3" type="text" placeholder="內容"
 			          class="bg-slate-100 text-slate-500 p-2 flex items-center text-sm w-full rounded"></textarea>
 		</div>
 	</div>
@@ -100,6 +116,12 @@
 
 <style>
 	.btn {
-		@apply bg-slate-100 text-slate-500 h-8 px-2 flex items-center text-sm;
+		@apply bg-slate-100 text-slate-500 h-8 px-2 flex items-center text-sm rounded hover:text-blue-500;
+	}
+	input:focus {
+		@apply text-red-500;
+	}
+	input:focus > label {
+		@apply bg-green-500;
 	}
 </style>
