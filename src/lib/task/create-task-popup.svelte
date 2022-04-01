@@ -7,6 +7,9 @@
 	import {org_data} from "$lib/store/org_data.js";
 	import {http} from "$lib/http.js";
 	import {onMount} from "svelte";
+	import {triggerReload} from "$lib/helper/trigger-reload.js";
+	import {getContext} from 'svelte'
+	const {hidePopup} = getContext('popup')
 	export let YYYY_MM_DD
 
 	onMount(() => {
@@ -23,14 +26,16 @@
 		node.focus()
 	}
 
-	const onCreate = () => {
-		http.post(fetch, '/organizationApi/purchase_work_task', {
+	const onCreate = async () => {
+		await http.post(fetch, '/organizationApi/purchase_work_task', {
 			organization_id: $org_data.organization_id,
 			start_time: dayjs(end_date).format('YYYY-MM-DD 00:00:00'), // TODO: where is end time
 			title,
 			tutor_group_id: 2399,
 			vocab_list: ['apple']
 		})
+		hidePopup()
+		triggerReload()
 	}
 </script>
 

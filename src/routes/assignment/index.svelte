@@ -1,11 +1,11 @@
 <script context="module">
 	import {http, onFail} from "$lib/http";
 
-	export const load = async ({params, fetch}) => {
+	export const load = async ({url, params, fetch}) => {
+		if (url.searchParams) {}
 		const {data, success, debug} = await http.post(fetch, '/courseApi/get_tutor_group_lesson_list', {
 			tutor_group_id: 2399
 		})
-		console.log(data)
 		if (!success) return onFail(debug)
 		return {
 			props: {
