@@ -1,5 +1,3 @@
-import {usermodel} from $lib/usermodal;
-
 export const post = async (event) => {
 	const body = await event.request.json()
 	const type_key = body.type_key
