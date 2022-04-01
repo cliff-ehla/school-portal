@@ -26,13 +26,19 @@
 		node.focus()
 	}
 
+	const splitArticleIntoSentences = (article) => {
+		return article.split('\n')
+	}
+
 	const onCreate = async () => {
+		const tutor_group_id = org_data.getTutorGroupIdByClassId(class_id)
 		await http.post(fetch, '/organizationApi/purchase_work_task', {
 			organization_id: $org_data.organization_id,
 			start_time: dayjs(end_date).format('YYYY-MM-DD 00:00:00'), // TODO: where is end time
+			due_time: dayjs(end_date).format('YYYY-MM-DD 00:00:00'),
 			title,
-			tutor_group_id: 2399,
-			vocab_list: ['apple']
+			tutor_group_id,
+			vocab_list: splitArticleIntoSentences(description)
 		})
 		hidePopup()
 		triggerReload()
@@ -79,14 +85,6 @@
 				</div>
 				<div slot="item">{c.name}</div>
 			</DropdownSelect>
-		</div>
-
-		<div class="h-[1px] bg-slate-200 my-2"></div>
-
-		<div class="flex items-center mb-2">
-			<div class="w-12 flex-shrink-0 text-xs text-slate-500">口音</div>
-			<button class="btn">英式</button>
-			<button class="btn ml-1">美式</button>
 		</div>
 
 		<div class="flex items-center">

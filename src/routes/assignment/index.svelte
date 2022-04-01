@@ -43,7 +43,8 @@
 			],
 			eventClick: ({event, el}) => {
 				showPopup(el, Popup, {
-					article_id: event.extendedProps.lesson[0].article_id
+					article_id: event.extendedProps.lesson[0].article_id || event.extendedProps.lesson[1].article_id, // TODO
+					task: event.extendedProps
 				}, {
 					placement: 'right'
 				})

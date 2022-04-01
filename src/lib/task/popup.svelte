@@ -4,8 +4,10 @@
 	const {forceUpdate} = getContext('popup')
 	import {tick} from "svelte";
 
+	export let task
 	export let article_id
 	let sentences
+	console.log(task)
 
 	const fetchData = async () => {
 		const {success, data} = await http.post(fetch, '/selfieArticleApi/get_article_by_id', {
@@ -20,16 +22,19 @@
 </script>
 
 <div use:fetchData class="p-4 shadow max-w-[400px]">
-	<p>Speaking exercise</p>
-	<p class="font-bold">6A</p>
+	<div class="flex">
+		<p>{task.type}</p>
+		<p class="font-bold">6A</p>
+	</div>
+	<p class="text-xl">{task.description}</p>
 	<p>Feb 25</p>
-	<p>Speaking of wisdom</p>
-	<p>25 submitted</p>
-	<p>3 late</p>
-	<p>4 below average</p>
-	<!--{#if sentences}-->
-	<!--	{#each sentences as s}-->
-	<!--		<p>{s.sentence}</p>-->
-	<!--	{/each}-->
-	<!--{/if}-->
+
+	<p>Pending submission</p>
+<!--	<p>3 late</p>-->
+<!--	<p>4 below average</p>-->
+	{#if sentences}
+		{#each sentences as s}
+			<p>{s.sentence}</p>
+		{/each}
+	{/if}
 </div>
