@@ -21,6 +21,7 @@
 	const {showPopup} = getContext('popup')
 	import Popup from '$lib/task/popup.svelte'
 	import CreateTaskPopup from '$lib/task/create-task-popup.svelte'
+	import {eventContent} from "$lib/calendar/event-content.js";
 
 	export let lesson_list
 	let calendar
@@ -28,6 +29,7 @@
 	let double_click_timestamp
 	const init = node => {
 		calendar = new FullCalendar.Calendar(node, {
+			eventContent,
 			eventClassNames: ({event}) => {
 				return `day_id_${event.extendedProps.day_id}`
 			},
