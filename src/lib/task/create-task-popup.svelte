@@ -62,8 +62,8 @@
 	<div class="p-4">
 		<div class="flex items-center mb-2">
 			{#each type_key_option as option}
-				<button class="btn focus:bg-red-300 mr-1"
-				        class:bg-blue-500={option.id === type_key}
+				<button class="btn mr-1"
+				        class:active={option.id === type_key}
 				        on:click={() => {type_key = option.id}}>
 					{option.label}
 				</button>
@@ -116,12 +116,10 @@
 
 <style>
 	.btn {
-		@apply bg-slate-100 text-slate-500 h-8 px-2 flex items-center text-sm rounded hover:text-blue-500;
+		@apply bg-slate-100 text-slate-500 h-8 px-2 flex items-center text-sm rounded
+		focus:text-blue-500 focus:bg-slate-200 focus:outline-none;
 	}
-	input:focus {
-		@apply text-red-500;
-	}
-	input:focus > label {
-		@apply bg-green-500;
+	.btn.active {
+		@apply bg-blue-500 text-white;
 	}
 </style>

@@ -24,8 +24,8 @@ export const post = async (event) => {
 				f_disable_comments : false,
 				f_disable_score : false,
 				f_skip_teacher_review : false,
-				writing_instruction : 'Please see instructions on the picture. ',
-				writing_title : 'Successful People',
+				writing_instruction : body.writing_instruction,
+				writing_title : body.writing_title,
 				writing_attachment : [
 					{
 						data : null,
